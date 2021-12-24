@@ -1,1 +1,1 @@
-# snake-for-web
+# snake-for-web just for fun :)
