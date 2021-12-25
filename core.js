@@ -1,4 +1,5 @@
-import { SNAKE_SPEED, update as updateSnake, draw as drawSnake } from './snake.js'
+import { update as updateSnake, draw as drawSnake, SNAKE_SPEED } from './snake.js'
+import { update as updateHunt, draw as drawHunt }  from './hunt.js'
 
 let lastRenderTime = 0;
 const board = document.getElementById('playground');
@@ -21,9 +22,11 @@ window.requestAnimationFrame(main);
 
 function update(){
   updateSnake();
+  updateHunt();
 }
 
 function draw(){
   playground.innerHTML = '';
   drawSnake(playground);
+  drawHunt(playground);
 }
