@@ -9,7 +9,7 @@ let gameOver = false;
 
 function main(currentTime){
   if(gameOver){
-    if(confirm('Game Over! Wanna Retry?')){
+    if(confirm('Game Over! Do you want to try again?')){
       window.location = '/';
     }
     return;
