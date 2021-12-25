@@ -1,6 +1,7 @@
-import { update as updateSnake, draw as drawSnake, SNAKE_SPEED, getSnakeHead, isTailIntersect } from './snake.js'
+import { update as updateSnake, draw as drawSnake, getSnakeHead, isTailIntersect } from './snake.js'
 import { update as updateHunt, draw as drawHunt }  from './hunt.js'
 import { outsideOfPlayground } from './playground.js';
+import { SNAKE_SPEED } from './gameParameters.js';
 
 const board = document.getElementById('playground');
 let lastRenderTime = 0;

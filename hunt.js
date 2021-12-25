@@ -1,5 +1,6 @@
-import { onSnake, growSnake, GROWTH_PARAMETER } from './snake.js'
+import { onSnake, growSnake } from './snake.js'
 import { randomGridPosition } from './playground.js';
+import { GROWTH_PARAMETER } from './gameParameters.js';
 
 let huntPosition = getRandomHuntPosition();
 

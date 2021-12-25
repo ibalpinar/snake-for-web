@@ -1,4 +1,4 @@
-const GRID_SIZE = 21;
+import { GRID_SIZE } from './gameParameters.js';
 
 export function randomGridPosition() {
   return {
@@ -6,7 +6,6 @@ export function randomGridPosition() {
     y: Math.floor(Math.random() * GRID_SIZE) + 1
   }
 }
-
 
 export function outsideOfPlayground(snakeHeadPosition){
   return(

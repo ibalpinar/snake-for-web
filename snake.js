@@ -1,8 +1,7 @@
-import { getInputDirection } from './input.js'
+import { getInputDirection } from './input.js';
+import { STARTING_POSITION } from './gameParameters.js';
 
-export const SNAKE_SPEED = 5;
-export const GROWTH_PARAMETER = 1;
-const snakeBody = [ {x: 11, y: 11 } ];
+const snakeBody = [ STARTING_POSITION ];
 let newNodes = 0;
 
 export function update(){
