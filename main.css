@@ -1,3 +1,7 @@
+:root {
+  --grid-size: 51;
+}
+
 body{
   width: 100vw;
   height: 100vh;
@@ -11,20 +15,21 @@ body{
 #playground{
   width: 100vmin;
   height: 100vmin;
-  background-color: #c2c2c2;
+  background-color: #f2f2f2;
   display: grid;
-  grid-template-columns: repeat(21, 1fr);
-  grid-template-rows: repeat(21, 1fr);
+  grid-template-columns: repeat(var(--grid-size), 1fr);
+  grid-template-rows: repeat(var(--grid-size), 1fr);
 }
 
 .hunt{
-  border: .25vmin solid black;
-  border-radius: 25%;
-  background-color: hsl(50, 100%, 50%);
+  border: .25vmin solid rgb(76, 177, 89);
+  border-radius: 50%;
+  background-color: hsl(133, 89%, 58%);
 }
 
 .snake{
-  border: .25vmin solid black;
+  border: .25vmin solid rgb(219, 74, 74);
   border-radius: 25%;
-  background-color: hsl(200, 100%, 50%);
+  background-color: hsl(355, 96%, 81%);
 }
+
