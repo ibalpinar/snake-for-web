@@ -6,3 +6,13 @@ export function randomGridPosition() {
     y: Math.floor(Math.random() * GRID_SIZE) + 1
   }
 }
+
+
+export function outsideOfPlayground(snakeHeadPosition){
+  return(
+    snakeHeadPosition.x < 1 ||
+    snakeHeadPosition.x > GRID_SIZE ||
+    snakeHeadPosition.y < 1 ||
+    snakeHeadPosition.y > GRID_SIZE
+  )
+}

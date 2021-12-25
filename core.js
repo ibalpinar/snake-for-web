@@ -1,10 +1,18 @@
-import { update as updateSnake, draw as drawSnake, SNAKE_SPEED } from './snake.js'
+import { update as updateSnake, draw as drawSnake, SNAKE_SPEED, getSnakeHead, isTailIntersect } from './snake.js'
 import { update as updateHunt, draw as drawHunt }  from './hunt.js'
+import { outsideOfPlayground } from './playground.js';
 
-let lastRenderTime = 0;
 const board = document.getElementById('playground');
+let lastRenderTime = 0;
+let gameOver = false;
 
 function main(currentTime){
+  if(gameOver){
+    if(confirm('Game Over! Wanna Retry?')){
+      window.location = '/';
+    }
+    return;
+  }
   window.requestAnimationFrame(main);
   const secondsSinceLastRender = (currentTime - lastRenderTime) / 1000;
 
@@ -23,10 +31,15 @@ window.requestAnimationFrame(main);
 function update(){
   updateSnake();
   updateHunt();
+  checkGameStatus();
 }
 
 function draw(){
   playground.innerHTML = '';
   drawSnake(playground);
   drawHunt(playground);
+}
+
+function checkGameStatus(){
+  gameOver = ( outsideOfPlayground(getSnakeHead()) || isTailIntersect() );
 }

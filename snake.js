@@ -35,8 +35,10 @@ export function growSnake(amount){
   newNodes += amount;
 }
 
-export function onSnake(huntPosition){
-  return snakeBody.some(nodePosition => {
+export function onSnake(huntPosition, { igrnoreHead = false } = {}){
+  return snakeBody.some((nodePosition, index) => {
+    if (igrnoreHead && index === 0)
+      return false;
     return equalPosition(nodePosition, huntPosition);
   });
 }
@@ -51,4 +53,12 @@ function addNodes(){
   }
 
   newNodes = 0;
+}
+
+export function getSnakeHead(){
+  return snakeBody[0];
+}
+
+export function isTailIntersect(){
+  return onSnake(snakeBody[0], { igrnoreHead: true });
 }
