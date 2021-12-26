@@ -12,6 +12,9 @@ Sample:
 ```sh
 http://127.0.0.1:[PORT_NUMBER]/index.html
 ```
+### Online Access
+You can reach the game via the Snake for Web link on the http://balpinar.com/ homepage.
+
 ### How to play?
 Press one of the Arrow keys to start the game.
 
@@ -22,12 +25,14 @@ If you want to play again, press 'Ok' else press the 'Cancel' button.
 Want to contribute? Great! If you would like to contribute, you can submit a Pull Request.
 
 ### Some Future Improvements
-- Develop level logic
-- Make a simple scoreboard
-- Show level and number of hunts in the leaderboard
-- Convert the confirm box at the end of the game to a simple modal
-- Visually improve the design
-- Make a more attractive interface for kids in the moving elements of the game
+- ==[IMP]== Develop level logic
+- ==[IMP]== Put blocks to make the game more difficult in the advanced levels
+- ==[IMP]== Make a simple scoreboard
+- ==[IMP]== Show level and number of hunts in the leaderboard
+- ==[IMP]== Convert the confirm box at the end of the game to a simple modal
+- ==[IMP]== Visually improve the design
+- ==[IMP]== Make a more attractive interface for kids in the moving elements of the game
+- ==[BUG]== Sometimes the linearity of the snake is broken when the game is over
 
 ### Important Notice
 I made this simple snake game for my 6-year-old daughter to both love software development and have fun. I'll continue to make minor improvements as I find the time. There may be some bugs. If you tell, I'll fix it or you can contribute to fixing bugs that you find and improving the game.
