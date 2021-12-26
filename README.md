@@ -1,10 +1,4 @@
-# Classic Snake game for web. Just for fun ;)
-
-### How to play?
-Press one of the Arrow keys to start the game.
-
-### What if the game is over?
-If you want to play again, press 'Ok' else press the 'Cancel' button.
+# Classic Snake Game for the Web.
 
 ### Installation
 I suggest running the application through a simple web server. If you have Homebrew installed on your system, open your favorite Terminal and run the following command:
@@ -18,10 +12,11 @@ Sample:
 ```sh
 http://127.0.0.1:[PORT_NUMBER]/index.html
 ```
+### How to play?
+Press one of the Arrow keys to start the game.
 
-### Important Notice
-> I made this simple snake game for my 6-year-old daughter to both love software development and have fun.
-> I'll continue to make minor improvements as I find the time.
+### What if the game is over?
+If you want to play again, press 'Ok' else press the 'Cancel' button.
 
 ### Development
 Want to contribute? Great! If you would like to contribute, you can submit a Pull Request.
@@ -31,8 +26,13 @@ Want to contribute? Great! If you would like to contribute, you can submit a Pul
 - Make a simple scoreboard
 - Show level and number of hunts in the leaderboard
 - Convert the confirm box at the end of the game to a simple modal
+- Visually improve the design
+- Make a more attractive interface for kids in the moving elements of the game
+
+### Important Notice
+I made this simple snake game for my 6-year-old daughter to both love software development and have fun. I'll continue to make minor improvements as I find the time. There may be some bugs. If you tell, I'll fix it or you can contribute to fixing bugs that you find and improving the game.
 
 ## License
 MIT
 
-**Free Software!**
+**Free Software, just for fun ;)**
