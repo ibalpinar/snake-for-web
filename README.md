@@ -27,15 +27,21 @@ Want to contribute? Great! If you would like to contribute, you can submit a Pul
 ### Some Future Improvements
 - `IMP` Develop level logic
 - `IMP` Put blocks to make the game more difficult in the advanced levels
+  `IMP` In advanced levels, put more than one hunt in different spots
 - `IMP` Make a simple scoreboard
 - `IMP` Show level and number of hunts in the leaderboard
 - `IMP` Convert the confirm box at the end of the game to a simple modal
 - `IMP` Visually improve the design
 - `IMP` Make a more attractive interface for kids in the moving elements of the game
+- `IMP` Game pause feature
+- `IMP` The snake must be 3 pieces when the game starts
+- `IMP` Make the head of the snake a different color
+- `IMP` Get player name and show it on the game header
+- `IMP` Touch screen mobile device support
 - `BUG` Sometimes the linearity of the snake is broken when the game is over
 
 ### Important Notice
-I made this simple snake game for my 6-year-old daughter to both love software development and have fun. I'll continue to make minor improvements as I find the time. There may be some bugs. If you tell, I'll fix it or you can contribute to fixing bugs that you find and improving the game.
+I made this simple snake game for my 6-year-old daughter to both love software development and have fun. I'll continue to make minor improvements as I find the time. There may be some bugs. If you tell me, I'll fix it or you can contribute to fixing bugs that you find and improving the game.
 
 ## License
 Distributed under the MIT License. See `LICENSE.txt` for more information.
