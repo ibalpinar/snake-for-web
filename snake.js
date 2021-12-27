@@ -5,8 +5,6 @@ const snakeBody = [ STARTING_POSITION ];
 let newNodes = 0;
 
 export function update(){
-  // console.log('Update Snake');
-
   addNodes();
   const inputDirection = getInputDirection();
 
@@ -19,8 +17,6 @@ export function update(){
 }
 
 export function draw(playground){
-  // console.log('Draw Snake');
-
   snakeBody.forEach(nodePosition => {
     const snakeElement = document.createElement('div');
     snakeElement.style.gridRowStart = nodePosition.y;

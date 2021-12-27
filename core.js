@@ -21,9 +21,7 @@ function main(currentTime){
   if(secondsSinceLastRender < 1 / SNAKE_SPEED)
     return;
 
-  // console.log("Render");
   lastRenderTime = currentTime;
-
   update();
   draw();
 }

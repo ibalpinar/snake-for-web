@@ -5,7 +5,6 @@ import { GROWTH_PARAMETER } from './gameParameters.js';
 let huntPosition = getRandomHuntPosition();
 
 export function update(){
-  // console.log('Update Hunt');
   if(onSnake(huntPosition)){
     growSnake(GROWTH_PARAMETER);
     huntPosition = getRandomHuntPosition();
@@ -13,8 +12,6 @@ export function update(){
 }
 
 export function draw(playground){
-  // console.log('Draw Hunt');
-
   const huntElement = document.createElement('div');
   huntElement.style.gridRowStart = huntPosition.y;
   huntElement.style.gridColumnStart = huntPosition.x;
