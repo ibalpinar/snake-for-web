@@ -22,7 +22,7 @@ Press one of the Arrow keys to start the game.
 If you want to play again, press 'Ok' else press the 'Cancel' button.
 
 ### Development
-Want to contribute? Great! If you would like to contribute, you can submit a Pull Request.
+Want to contribute? Great! If you would like to contribute, you can Fork the project and submit a Pull Request.
 
 ### New Features, Improvements and Bugs
 All new features, improvements and bugs are listed under the [Issues](https://github.com/ibalpinar/snake-for-web/issues) section. You can start from this section to participate and contribute to the development of the game.
