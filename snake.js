@@ -1,8 +1,11 @@
 import { getInputDirection } from './input.js';
 import { STARTING_POSITION } from './gameParameters.js';
 
+const scoreDiv = document.getElementById('score');
+
 const snakeBody = [ STARTING_POSITION ];
 let newNodes = 0;
+export let score = 0;
 
 export function update(){
   addNodes();
@@ -28,6 +31,7 @@ export function draw(playground){
 
 export function growSnake(amount){
   newNodes += amount;
+  scoreDiv.innerHTML = score += 1;
 }
 
 export function onSnake(huntPosition, { igrnoreHead = false } = {}){

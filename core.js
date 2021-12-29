@@ -1,4 +1,4 @@
-import { update as updateSnake, draw as drawSnake, getSnakeHead, isTailIntersect } from './snake.js'
+import { update as updateSnake, draw as drawSnake, getSnakeHead, isTailIntersect, score } from './snake.js'
 import { update as updateHunt, draw as drawHunt }  from './hunt.js'
 import { outsideOfPlayground } from './playground.js';
 import { SNAKE_SPEED } from './gameParameters.js';
@@ -9,7 +9,7 @@ let gameOver = false;
 
 function main(currentTime){
   if(gameOver){
-    if(confirm('Game Over! Do you want to try again?')){
+    if(confirm('Game Over!\nScore: ' + score + ' \nDo you want to try again?')){
       window.location = './';
     }
     return;
