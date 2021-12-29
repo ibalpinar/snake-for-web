@@ -27,7 +27,8 @@ Want to contribute? Great! If you would like to contribute, you can submit a Pul
 ### Some Future Improvements
 - `IMP` Develop level logic
 - `IMP` Put blocks to make the game more difficult in the advanced levels
-  `IMP` In advanced levels, put more than one hunt in different spots
+- `IMP` In advanced levels, put more than one hunt in different spots
+- `IMP` Some hunts at advanced levels give more than 1 point
 - `IMP` Make a simple scoreboard
 - `IMP` Show level and number of hunts in the leaderboard
 - `IMP` Convert the confirm box at the end of the game to a simple modal
@@ -37,7 +38,10 @@ Want to contribute? Great! If you would like to contribute, you can submit a Pul
 - `IMP` The snake must be 3 pieces when the game starts
 - `IMP` Make the head of the snake a different color
 - `IMP` Get player name and show it on the game header
+- `IMP` Place a column to the right side of the playground and list the scores of the players with their names
+- `IMP` Players under 5 points should not be listed.
 - `IMP` Touch screen mobile device support
+- `IMP` Set Optional style option
 - `BUG` Sometimes the linearity of the snake is broken when the game is over
 
 ### Important Notice
