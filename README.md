@@ -42,6 +42,7 @@ Want to contribute? Great! If you would like to contribute, you can submit a Pul
 - `IMP` Players under 5 points should not be listed.
 - `IMP` Touch screen mobile device support
 - `IMP` Set Optional style option
+- `IMP` Add a sound when hunted and game over
 - `BUG` Sometimes the linearity of the snake is broken when the game is over
 
 ### Important Notice
