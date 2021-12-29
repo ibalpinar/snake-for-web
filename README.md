@@ -1,4 +1,4 @@
-# Classic Snake Game for the Web.
+# Classic Snake Game for the Web
 
 ### Installation
 I suggest running the application through a simple web server. If you have Homebrew installed on your system, open your favorite Terminal and run the following command:
