@@ -22,7 +22,22 @@ Press one of the Arrow keys to start the game.
 If you want to play again, press 'Ok' else press the 'Cancel' button.
 
 ### Development
-Want to contribute? Great! If you would like to contribute, you can Fork the project and submit a Pull Request.
+Want to contribute? Great! If you would like to contribute, you can Fork the project and submit a Pull Request. Well, How to?
+
+Before starting development, you need to open a `feature branch` with the Issue and Issue number you have chosen for yourself. For example `ISSUE-20`.
+
+During your development, each commit should be a short imperative sentence and should be written as `[ISSUE-20]` at the end of the commit message.
+
+An example commit message:
+```
+Add new style files for leaderboard [ISSUE-20]
+```
+
+When your development is complete, you can open a Pull Request from your `feature branch` to the `develop` branch.
+
+`ISSUE-20` into `develop`
+
+Pull Requests will be accepted that pass the code review session and comply with all the rules in the README file. Otherwise, a correction will be requested with a comment.
 
 ### New Features, Improvements and Bugs
 All new features, improvements and bugs are listed under the [Issues](https://github.com/ibalpinar/snake-for-web/issues) section. You can start from this section to participate and contribute to the development of the game.
