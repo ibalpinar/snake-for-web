@@ -7,6 +7,22 @@
   <title>Snake For Web!</title>
   <link rel="stylesheet" href="./style/main.css">
   <script src="./src/core.js" type="module" defer></script>
+  <script>
+    // Function to save score to local storage
+    window.saveScore = function(score) {
+      // Get existing scores or create empty array
+      const scores = JSON.parse(localStorage.getItem('snakeScores')) || [];
+      
+      // Add new score with timestamp
+      scores.push({
+        score: score,
+        date: new Date().toISOString()
+      });
+      
+      // Save back to local storage
+      localStorage.setItem('snakeScores', JSON.stringify(scores));
+    };
+  </script>
 </head>
 <body>
   <div class="game-container">
@@ -33,7 +49,18 @@
       <span class="close-popup">&times;</span>
       <h2>Previous Scores</h2>
       <div id="previous-score-content">
-        <!-- Content will be added later -->
+        <table id="score-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Scores will be inserted here -->
+          </tbody>
+        </table>
+        <div id="no-scores" style="display: none;">No previous scores found.</div>
       </div>
     </div>
   </div>
@@ -49,6 +76,7 @@
     // Open popup when clicking on Previous Score link
     previousScoreLink.addEventListener('click', function(e) {
       e.preventDefault();
+      displayPreviousScores();
       popup.style.display = 'block';
     });
     
@@ -63,50 +91,48 @@
         popup.style.display = 'none';
       }
     });
+    
+    // Function to display previous scores
+    function displayPreviousScores() {
+      const scoreTable = document.querySelector('#score-table tbody');
+      const noScores = document.getElementById('no-scores');
+      
+      // Get scores from local storage
+      const scores = JSON.parse(localStorage.getItem('snakeScores')) || [];
+      
+      // Clear existing content
+      scoreTable.innerHTML = '';
+      
+      if (scores.length === 0) {
+        // Show no scores message
+        scoreTable.style.display = 'none';
+        noScores.style.display = 'block';
+        return;
+      }
+      
+      // Show table and hide no scores message
+      scoreTable.style.display = 'table-row-group';
+      noScores.style.display = 'none';
+      
+      // Sort scores by date (newest first)
+      scores.sort((a, b) => new Date(b.date) - new Date(a.date));
+      
+      // Add rows for each score
+      scores.forEach(item => {
+        const row = document.createElement('tr');
+        
+        // Format the date nicely
+        const date = new Date(item.date);
+        const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
+        
+        row.innerHTML = `
+          <td>${formattedDate}</td>
+          <td>${item.score}</td>
+        `;
+        
+        scoreTable.appendChild(row);
+      });
+    }
   });
 </script>
-
-<style>
-  /* Basic popup styling */
-  .previous-score {
-    margin-right: 10px;
-    cursor: pointer;
-    color: #4f70b7;
-    text-decoration: underline;
-  }
-  
-  .popup {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-  
-  .popup-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
-    border-radius: 5px;
-    position: relative;
-  }
-  
-  .close-popup {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .close-popup:hover {
-    color: black;
-  }
-</style>
 </html>

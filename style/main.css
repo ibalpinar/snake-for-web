@@ -32,8 +32,8 @@ body{
   height: 3vmin;
   background-color: #a5f328;
   display: flex;
-	flex-direction: row;
-	justify-content: space-between;
+    flex-direction: row;
+    justify-content: space-between;
   padding: 1.2vmin 0 0 0;
   vertical-align: top;
   font: 1.3vmin Verdana, black;
@@ -47,8 +47,8 @@ body{
 
 .game-header .scoreboard-container{
   display: flex;
-	flex-direction: row;
-	justify-content: space-between;
+    flex-direction: row;
+    justify-content: space-between;
   padding: 0 1vmin 0 0;
 }
 
@@ -67,4 +67,80 @@ body{
   border: .25vmin solid rgb(219, 74, 74);
   border-radius: 25%;
   background-color: hsl(355, 96%, 81%);
+}
+
+/* Popup Styling */
+.previous-score {
+  margin-right: 10px;
+  cursor: pointer;
+  color: #4f70b7;
+  text-decoration: underline;
+  font-family: Verdana, sans-serif;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  font-family: Verdana, sans-serif;
+}
+
+.popup-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 5px;
+  position: relative;
+  font-family: Verdana, sans-serif;
+}
+
+.close-popup {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-popup:hover {
+  color: black;
+}
+
+/* Table styling */
+#score-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  font-family: Verdana, sans-serif;
+  font-size: 14px;
+}
+
+#score-table th, #score-table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+#score-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+#score-table tr:hover {
+  background-color: #f5f5f5;
+}
+
+#no-scores {
+  text-align: center;
+  margin-top: 20px;
+  color: #666;
+  font-family: Verdana, sans-serif;
 }
