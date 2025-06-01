@@ -17,6 +17,7 @@
       </div>
 
       <div class="scoreboard-container">
+        <a href="#" id="previous-score" class="previous-score">Previous Score</a>
         <div class="score-text">Score:</div>
         <div class="score" id="score">0</div>
       </div>
@@ -25,5 +26,87 @@
 
     <div id="playground"></div>
   </div>
+  
+  <!-- Popup for Previous Score -->
+  <div id="previous-score-popup" class="popup">
+    <div class="popup-content">
+      <span class="close-popup">&times;</span>
+      <h2>Previous Scores</h2>
+      <div id="previous-score-content">
+        <!-- Content will be added later -->
+      </div>
+    </div>
+  </div>
 </body>
+
+<script>
+  // Simple popup functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const popup = document.getElementById('previous-score-popup');
+    const previousScoreLink = document.getElementById('previous-score');
+    const closeButton = document.querySelector('.close-popup');
+    
+    // Open popup when clicking on Previous Score link
+    previousScoreLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      popup.style.display = 'block';
+    });
+    
+    // Close popup when clicking on X
+    closeButton.addEventListener('click', function() {
+      popup.style.display = 'none';
+    });
+    
+    // Close popup when clicking outside the content
+    window.addEventListener('click', function(e) {
+      if (e.target === popup) {
+        popup.style.display = 'none';
+      }
+    });
+  });
+</script>
+
+<style>
+  /* Basic popup styling */
+  .previous-score {
+    margin-right: 10px;
+    cursor: pointer;
+    color: #4f70b7;
+    text-decoration: underline;
+  }
+  
+  .popup {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .popup-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 5px;
+    position: relative;
+  }
+  
+  .close-popup {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .close-popup:hover {
+    color: black;
+  }
+</style>
 </html>
