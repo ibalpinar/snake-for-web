@@ -144,3 +144,19 @@ body{
   color: #666;
   font-family: Verdana, sans-serif;
 }
+
+.snake {
+  border: .25vmin solid rgb(219, 74, 74);
+  border-radius: 25%;
+  background-color: hsl(355, 96%, 81%);
+  transition: transform 0.15s ease-out;
+}
+
+.snake-head {
+  background-color: hsl(355, 96%, 70%); /* Baş için isteğe bağlı farklı renk */
+  border-color: rgb(189, 44, 44);
+}
+
+.animated {
+  will-change: transform; /* Performans optimizasyonu */
+}

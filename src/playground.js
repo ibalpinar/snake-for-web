@@ -1,17 +1,18 @@
-import { GRID_SIZE } from './gameParameters.js';
+// Oyun alanının sınırları için grid boyutlarını tanımlayalım
+const GRID_SIZE = 51;
 
-export function randomGridPosition() {
+// Rastgele grid pozisyonu oluşturmak için fonksiyon
+export function getRandomGridPosition() {
   return {
     x: Math.floor(Math.random() * GRID_SIZE) + 1,
     y: Math.floor(Math.random() * GRID_SIZE) + 1
   }
 }
 
-export function outsideOfPlayground(snakeHeadPosition){
-  return(
-    snakeHeadPosition.x < 1 ||
-    snakeHeadPosition.x > GRID_SIZE ||
-    snakeHeadPosition.y < 1 ||
-    snakeHeadPosition.y > GRID_SIZE
+// Bir pozisyonun oyun alanı dışında olup olmadığını kontrol eden fonksiyon
+export function outsideOfPlayground(position) {
+  return (
+    position.x < 1 || position.x > GRID_SIZE ||
+    position.y < 1 || position.y > GRID_SIZE
   )
 }
