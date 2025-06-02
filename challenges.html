@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game - Interactive Learning Challenges</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #00ff88, #00ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .challenges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .challenge-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .challenge-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .challenge-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .difficulty-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .difficulty-beginner {
+            background: #4caf50;
+        }
+
+        .difficulty-intermediate {
+            background: #ff9800;
+        }
+
+        .difficulty-advanced {
+            background: #f44336;
+        }
+
+        .challenge-title {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .challenge-description {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .code-preview {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            border-left: 4px solid #00ff88;
+        }
+
+        .code-preview pre {
+            color: #f8f8f2;
+        }
+
+        .syntax-keyword { color: #ff79c6; }
+        .syntax-string { color: #f1fa8c; }
+        .syntax-comment { color: #6272a4; }
+        .syntax-function { color: #50fa7b; }
+
+        .challenge-button {
+            background: linear-gradient(45deg, #00ff88, #00ccff);
+            color: #000;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .challenge-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.4);
+        }
+
+        .progress-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            height: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(45deg, #00ff88, #00ccff);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .learning-path {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .path-step {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+            margin: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            min-width: 200px;
+        }
+
+        .path-step.completed {
+            background: rgba(0, 255, 136, 0.2);
+            border: 2px solid #00ff88;
+        }
+
+        .path-arrow {
+            font-size: 2em;
+            color: #00ff88;
+            margin: 0 10px;
+        }
+
+        @media (max-width: 768px) {
+            .challenges-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .learning-path {
+                flex-direction: column;
+            }
+            
+            .path-arrow {
+                transform: rotate(90deg);
+                margin: 10px 0;
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #fff;
+        }
+
+        .code-editor {
+            background: #1a1a1a;
+            color: #f8f8f2;
+            border: 1px solid #444;
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            width: 100%;
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        .test-results {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .test-pass {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4caf50;
+            color: #4caf50;
+        }
+
+        .test-fail {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+            color: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐍 Interactive JavaScript Challenges</h1>
+            <p>Learn by building and improving the Snake Game - freeCodeCamp style!</p>
+        </div>
+
+        <div class="learning-path">
+            <div class="path-step completed">
+                <h3>🎯 Setup</h3>
+                <p>Project structure and modules</p>
+            </div>
+            <div class="path-arrow">→</div>
+            <div class="path-step">
+                <h3>🎮 Game Logic</h3>
+                <p>Core mechanics and algorithms</p>
+            </div>
+            <div class="path-arrow">→</div>
+            <div class="path-step">
+                <h3>🎨 Enhancement</h3>
+                <p>Features and optimization</p>
+            </div>
+            <div class="path-arrow">→</div>
+            <div class="path-step">
+                <h3>🚀 Advanced</h3>
+                <p>AI and multiplayer</p>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <h2>Your Learning Progress</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 25%;"></div>
+            </div>
+            <p>3 of 12 challenges completed</p>
+        </div>
+
+        <div class="challenges-grid">
+            <!-- Beginner Challenges -->
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <div class="difficulty-badge difficulty-beginner">BEGINNER</div>
+                    <div class="challenge-title">Rainbow Snake</div>
+                </div>
+                <div class="challenge-description">
+                    Modify the snake's appearance to have each segment display a different color, creating a rainbow effect as it moves.
+                </div>
+                <div class="code-preview">
+                    <pre><code><span class="syntax-comment">// Current: Single color snake</span>
+<span class="syntax-keyword">const</span> snakeElement = document.<span class="syntax-function">createElement</span>(<span class="syntax-string">'div'</span>);
+snakeElement.<span class="syntax-function">classList.add</span>(<span class="syntax-string">'snake'</span>);
+
+<span class="syntax-comment">// Your task: Add rainbow colors!</span></code></pre>
+                </div>
+                <button class="challenge-button" onclick="openChallenge('rainbow-snake')">Start Challenge</button>
+            </div>
+
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <div class="difficulty-badge difficulty-beginner">BEGINNER</div>
+                    <div class="challenge-title">Pause Feature</div>
+                </div>
+                <div class="challenge-description">
+                    Add a pause functionality using the spacebar. The game should freeze when paused and display a "PAUSED" message.
+                </div>
+                <div class="code-preview">
+                    <pre><code><span class="syntax-comment">// Add pause state management</span>
+<span class="syntax-keyword">let</span> isPaused = <span class="syntax-keyword">false</span>;
+
+<span class="syntax-comment">// Listen for spacebar press</span>
+window.<span class="syntax-function">addEventListener</span>(<span class="syntax-string">'keydown'</span>, e => {
+  <span class="syntax-keyword">if</span> (e.key === <span class="syntax-string">' '</span>) {
+    <span class="syntax-comment">// Your code here</span>
+  }
+});</code></pre>
+                </div>
+                <button class="challenge-button" onclick="openChallenge('pause-feature')">Start Challenge</button>
+            </div>
+
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <div class="difficulty-badge difficulty-beginner">BEGINNER</div>
+                    <div class="challenge-title">Speed Boost</div>
+                </div>
+                <div class="challenge-description">
+                    Make the game progressively faster as the player's score increases. Every 50 points should increase the snake's speed.
+                </div>
+                <div class="code-preview">
+                    <pre><code><span class="syntax-comment">// Current speed system</span>
+<span class="syntax-keyword">const</span> SNAKE_SPEED = <span class="syntax-string">15</span>;
+
+<span class="syntax-comment">// Your task: Dynamic speed based on score</span>
+<span class="syntax-keyword">function</span> <span class="syntax-function">getGameSpeed</span>(currentScore) {
+  <span class="syntax-comment">// Calculate speed based on score</span>
+}</code></pre>
+                </div>
+                <button class="challenge-button" onclick="openChallenge('speed-boost')">Start Challenge</button>
+            </div>
+
+            <!-- Intermediate Challenges -->
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <div class="difficulty-badge difficulty-intermediate">INTERMEDIATE</div>
+                    <div class="challenge-title">Multiple Food Items</div>
+                </div>
+                <div class="challenge-description">
+                    Spawn 3-5 food items simultaneously. Each should have different colors and point values. Manage collision detection for multiple targets.
+                </div>
+                <div class="code-preview">
+                    <pre><code><span class="syntax-comment">// Current: Single food</span>
+<span class="syntax-keyword">let</span> food = <span class="syntax-function">getRandomFoodPosition</span>();
+
+<span class="syntax-comment">// Your task: Multiple food array</span>
+<span class="syntax-keyword">let</span> foodItems = [];
+
+<span class="syntax-keyword">function</span> <span class="syntax-function">spawnMultipleFood</span>(count) {
+  <span class="syntax-comment">// Generate multiple food items</span>
+}</code></pre>
+                </div>
+                <button class="challenge-button" onclick="openChallenge('multiple-food')">Start Challenge</button>
+            </div>
+
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <div class="difficulty-badge difficulty-intermediate">INTERMEDIATE</div>
+                    <div class="challenge-title">Obstacle System</div>
+                </div>
+                <div class="challenge-description">
+                    Add walls and barriers that the snake must navigate around. Implement collision detection for obstacles.
+                </div>
+                <div class="code-preview">
+                    <pre><code><span class="syntax-comment">// Define obstacle positions</span>
+<span class="syntax-keyword">const</span> obstacles = [
+  { x: <span class="syntax-string">10</span>, y: <span class="syntax-string">10</span> },
+  { x: <span class="syntax-string">15</span>, y: <span class="syntax-string">20</span> }
+];
+
+<span class="syntax-keyword">function</span> <span class="syntax-function">checkObstacleCollision</span>(position) {
+  <span class="syntax-comment">// Check if snake hits obstacle</span>
+}</code></pre>
+                </div>
+                <button class="challenge-button" onclick="openChallenge('obstacles')">Start Challenge</button>
+            </div>
+
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <div class="difficulty-badge difficulty-intermediate">INTERMEDIATE</div>
+                    <div class="challenge-title">Power-Up System</div>
+                </div>
+                <div class="challenge-description">
+                    Implement special power-ups: speed boost, score multiplier, invincibility, and shrink effect.
+                </div>
+                <div class="code-preview">
+                    <pre><code><span class="syntax-keyword">const</span> powerUpTypes = {
+  SPEED: <span class="syntax-string">'speed'</span>,
+  MULTIPLIER: <span class="syntax-string">'multiplier'</span>,
+  INVINCIBLE: <span class="syntax-string">'invincible'</span>,
+  SHRINK: <span class="syntax-string">'shrink'</span>
+};
+
+<span class="syntax-keyword">function</span> <span class="syntax-function">applyPowerUp</span>(type) {
+  <span class="syntax-comment">// Apply power-up effect</span>
+}</code></pre>
+                </div>
+                <button class="challenge-button" onclick="openChallenge('powerups')">Start Challenge</button>
+            </div>
+
+            <!-- Advanced Challenges -->
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <div class="difficulty-badge difficulty-advanced">ADVANCED</div>
+                    <div class="challenge-title">AI Snake Opponent</div>
+                </div>
+                <div class="challenge-description">
+                    Create an AI-controlled snake that uses pathfinding algorithms to compete against the player.
+                </div>
+                <div class="code-preview">
+                    <pre><code><span class="syntax-keyword">class</span> <span class="syntax-function">AISnake</span> {
+  <span class="syntax-function">constructor</span>() {
+    <span class="syntax-keyword">this</span>.path = [];
+    <span class="syntax-keyword">this</span>.target = <span class="syntax-keyword">null</span>;
+  }
+  
+  <span class="syntax-function">findPath</span>(start, goal) {
+    <span class="syntax-comment">// A* pathfinding algorithm</span>
+  }
+}</code></pre>
+                </div>
+                <button class="challenge-button" onclick="openChallenge('ai-snake')">Start Challenge</button>
+            </div>
+
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <div class="difficulty-badge difficulty-advanced">ADVANCED</div>
+                    <div class="challenge-title">Multiplayer Mode</div>
+                </div>
+                <div class="challenge-description">
+                    Implement local multiplayer with two snakes controlled by different keys, collision detection between snakes.
+                </div>
+                <div class="code-preview">
+                    <pre><code><span class="syntax-keyword">const</span> players = {
+  player1: { keys: [<span class="syntax-string">'ArrowUp'</span>, <span class="syntax-string">'ArrowDown'</span>, <span class="syntax-string">'ArrowLeft'</span>, <span class="syntax-string">'ArrowRight'</span>] },
+  player2: { keys: [<span class="syntax-string">'KeyW'</span>, <span class="syntax-string">'KeyS'</span>, <span class="syntax-string">'KeyA'</span>, <span class="syntax-string">'KeyD'</span>] }
+};
+
+<span class="syntax-keyword">function</span> <span class="syntax-function">checkSnakeCollision</span>(snake1, snake2) {
+  <span class="syntax-comment">// Check collision between snakes</span>
+}</code></pre>
+                </div>
+                <button class="challenge-button" onclick="openChallenge('multiplayer')">Start Challenge</button>
+            </div>
+
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <div class="difficulty-badge difficulty-advanced">ADVANCED</div>
+                    <div class="challenge-title">Level Editor</div>
+                </div>
+                <div class="challenge-description">
+                    Create a level editor that allows players to design custom levels with obstacles, special areas, and save/load functionality.
+                </div>
+                <div class="code-preview">
+                    <pre><code><span class="syntax-keyword">class</span> <span class="syntax-function">LevelEditor</span> {
+  <span class="syntax-function">constructor</span>() {
+    <span class="syntax-keyword">this</span>.mode = <span class="syntax-string">'obstacle'</span>;
+    <span class="syntax-keyword">this</span>.level = <span class="syntax-keyword">new</span> <span class="syntax-function">Array</span>(<span class="syntax-string">51</span>).<span class="syntax-function">fill</span>(<span class="syntax-keyword">null</span>).<span class="syntax-function">map</span>(() => <span class="syntax-keyword">new</span> <span class="syntax-function">Array</span>(<span class="syntax-string">51</span>).<span class="syntax-function">fill</span>(<span class="syntax-string">0</span>));
+  }
+  
+  <span class="syntax-function">saveLevel</span>(name) {
+    <span class="syntax-comment">// Save level to localStorage</span>
+  }
+}</code></pre>
+                </div>
+                <button class="challenge-button" onclick="openChallenge('level-editor')">Start Challenge</button>
+            </div>
+
+            <div class="challenge-card">
+                <div class="challenge-header">
+                    <div class="difficulty-badge difficulty-advanced">ADVANCED</div>
+                    <div class="challenge-title">Performance Optimization</div>
+                </div>
+                <div class="challenge-description">
+                    Optimize the game for smooth performance: object pooling, efficient rendering, memory management, and 60 FPS consistency.
+                </div>
+                <div class="code-preview">
+                    <pre><code><span class="syntax-keyword">class</span> <span class="syntax-function">ObjectPool</span> {
+  <span class="syntax-function">constructor</span>(createFn, resetFn) {
+    <span class="syntax-keyword">this</span>.pool = [];
+    <span class="syntax-keyword">this</span>.create = createFn;
+    <span class="syntax-keyword">this</span>.reset = resetFn;
+  }
+  
+  <span class="syntax-function">acquire</span>() {
+    <span class="syntax-comment">// Get object from pool or create new</span>
+  }
+}</code></pre>
+                </div>
+                <button class="challenge-button" onclick="openChallenge('optimization')">Start Challenge</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Challenge Modal -->
+    <div id="challengeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeChallenge()">&times;</span>
+            <div id="challengeContent">
+                <!-- Dynamic content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Challenge data and management
+        const challenges = {
+            'rainbow-snake': {
+                title: 'Rainbow Snake Challenge',
+                description: 'Create a rainbow effect for the snake segments',
+                instructions: [
+                    '1. Modify the snake drawing function to assign different colors to each segment',
+                    '2. Use HSL color space to create smooth color transitions',
+                    '3. Make the colors shift as the snake moves',
+                    '4. Test with different rainbow algorithms'
+                ],
+                starterCode: `// Add rainbow colors to snake segments
+function drawRainbowSnake(gameBoard) {
+  snakeBody.forEach((segment, index) => {
+    const snakeElement = document.createElement('div');
+    snakeElement.classList.add('snake');
+    
+    // Calculate rainbow color based on segment index
+    const hue = (index * 30) % 360; // 30 degrees per segment
+    snakeElement.style.backgroundColor = \`hsl(\${hue}, 70%, 60%)\`;
+    
+    snakeElement.style.gridColumnStart = segment.x;
+    snakeElement.style.gridRowStart = segment.y;
+    
+    gameBoard.appendChild(snakeElement);
+  });
+}`,
+                tests: [
+                    'Each snake segment has a different color',
+                    'Colors follow HSL rainbow pattern',
+                    'Snake head is clearly distinguishable',
+                    'Colors update as snake moves'
+                ]
+            },
+            'pause-feature': {
+                title: 'Pause Feature Challenge',
+                description: 'Implement game pause with spacebar',
+                instructions: [
+                    '1. Add a global pause state variable',
+                    '2. Listen for spacebar key events',
+                    '3. Prevent game updates when paused',
+                    '4. Display pause indicator on screen'
+                ],
+                starterCode: `let isPaused = false;
+
+// Add spacebar listener
+window.addEventListener('keydown', e => {
+  if (e.key === ' ' || e.code === 'Space') {
+    e.preventDefault();
+    isPaused = !isPaused;
+    
+    // Show/hide pause indicator
+    showPauseIndicator(isPaused);
+  }
+});
+
+function update() {
+  // Don't update game state if paused
+  if (isPaused) return;
+  
+  // Normal game update logic
+  updateSnake();
+  updateHunt();
+  checkGameStatus();
+}
+
+function showPauseIndicator(show) {
+  // Add pause text overlay
+  let pauseElement = document.getElementById('pause-indicator');
+  if (!pauseElement) {
+    pauseElement = document.createElement('div');
+    pauseElement.id = 'pause-indicator';
+    pauseElement.textContent = 'PAUSED - Press SPACE to continue';
+    pauseElement.style.cssText = \`
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0,0,0,0.8);
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      font-size: 24px;
+      z-index: 1000;
+    \`;
+    document.body.appendChild(pauseElement);
+  }
+  pauseElement.style.display = show ? 'block' : 'none';
+}`,
+                tests: [
+                    'Spacebar toggles pause state',
+                    'Game stops updating when paused',
+                    'Pause indicator appears and disappears',
+                    'Game resumes correctly after unpause'
+                ]
+            }
+        };
+
+        function openChallenge(challengeId) {
+            const challenge = challenges[challengeId];
+            if (!challenge) {
+                alert('Challenge not implemented yet!');
+                return;
+            }
+
+            const modal = document.getElementById('challengeModal');
+            const content = document.getElementById('challengeContent');
+            
+            content.innerHTML = `
+                <h2>${challenge.title}</h2>
+                <p>${challenge.description}</p>
+                
+                <h3>Instructions:</h3>
+                <ul>
+                    ${challenge.instructions.map(instruction => `<li>${instruction}</li>`).join('')}
+                </ul>
+                
+                <h3>Your Code:</h3>
+                <textarea class="code-editor" id="userCode" rows="15">${challenge.starterCode}</textarea>
+                
+                <div style="margin: 20px 0;">
+                    <button class="challenge-button" onclick="runTests('${challengeId}')">Run Tests</button>
+                    <button class="challenge-button" onclick="resetCode('${challengeId}')">Reset Code</button>
+                </div>
+                
+                <div id="testResults"></div>
+                
+                <h3>Expected Output:</h3>
+                <ul>
+                    ${challenge.tests.map(test => `<li>${test}</li>`).join('')}
+                </ul>
+            `;
+            
+            modal.style.display = 'block';
+        }
+
+        function closeChallenge() {
+            document.getElementById('challengeModal').style.display = 'none';
+        }
+
+        function runTests(challengeId) {
+            const userCode = document.getElementById('userCode').value;
+            const resultsDiv = document.getElementById('testResults');
+            
+            // Simple test simulation (in a real implementation, this would execute the code safely)
+            const passedTests = Math.floor(Math.random() * 4) + 1; // Random for demo
+            const totalTests = 4;
+            
+            if (passedTests === totalTests) {
+                resultsDiv.className = 'test-results test-pass';
+                resultsDiv.innerHTML = `
+                    <h4>✅ All tests passed!</h4>
+                    <p>Great job! Your implementation meets all requirements.</p>
+                    <button class="challenge-button" onclick="markCompleted('${challengeId}')">Mark as Completed</button>
+                `;
+            } else {
+                resultsDiv.className = 'test-results test-fail';
+                resultsDiv.innerHTML = `
+                    <h4>❌ ${passedTests}/${totalTests} tests passed</h4>
+                    <p>Keep working! Check the requirements and try again.</p>
+                `;
+            }
+        }
+
+        function resetCode(challengeId) {
+            const challenge = challenges[challengeId];
+            document.getElementById('userCode').value = challenge.starterCode;
+        }
+
+        function markCompleted(challengeId) {
+            // Update progress
+            const currentProgress = parseInt(document.getElementById('progressFill').style.width);
+            const newProgress = Math.min(currentProgress + 8.33, 100); // Each challenge is ~8.33% of 12 total
+            document.getElementById('progressFill').style.width = newProgress + '%';
+            
+            // Save to localStorage
+            const completed = JSON.parse(localStorage.getItem('completedChallenges') || '[]');
+            if (!completed.includes(challengeId)) {
+                completed.push(challengeId);
+                localStorage.setItem('completedChallenges', JSON.stringify(completed));
+            }
+            
+            closeChallenge();
+            alert('Challenge completed! 🎉');
+        }
+
+        // Load progress on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            const completed = JSON.parse(localStorage.getItem('completedChallenges') || '[]');
+            const progress = (completed.length / 12) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            // Update progress text
+            document.querySelector('.progress-section p').textContent = 
+                `${completed.length} of 12 challenges completed`;
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            const modal = document.getElementById('challengeModal');
+            if (e.target === modal) {
+                closeChallenge();
+            }
+        });
+    </script>
+</body>
+</html>

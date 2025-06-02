@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game - Interactive Coding Lab | Learn JavaScript by Building Games</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .lab-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 30px 0;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            height: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .lab-interface {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .challenge-panel, .code-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+        }
+
+        .challenge-panel h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .challenge-content {
+            margin-bottom: 20px;
+        }
+
+        .challenge-objective {
+            background: #e8f5e8;
+            border-left: 4px solid #4CAF50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .challenge-hint {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .code-editor {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            min-height: 300px;
+            line-height: 1.5;
+            border: none;
+            outline: none;
+            resize: vertical;
+            width: 100%;
+        }
+
+        .output-panel {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            min-height: 150px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-y: auto;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ff9800 0%, #e65100 100%);
+            color: white;
+        }
+
+        .btn-info {
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .challenge-navigator {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .challenge-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .challenge-item {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .challenge-item:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .challenge-item.active {
+            border-color: #667eea;
+            background: #e8f2ff;
+        }
+
+        .challenge-item.completed {
+            border-color: #4CAF50;
+            background: #e8f5e8;
+        }
+
+        .challenge-item.completed::after {
+            content: "✓";
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .challenge-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+
+        .challenge-description {
+            font-size: 14px;
+            color: #6c757d;
+            line-height: 1.4;
+        }
+
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 8px;
+        }
+
+        .difficulty-beginner {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .difficulty-intermediate {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .difficulty-advanced {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .game-preview {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .game-canvas {
+            border: 3px solid #333;
+            border-radius: 10px;
+            background: #000;
+            margin: 20px auto;
+            display: block;
+        }
+
+        .success-animation {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            z-index: 1000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+            animation: successPop 0.5s ease-out;
+        }
+
+        @keyframes successPop {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        .syntax-highlight {
+            background: #f1f3f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .lab-interface {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .challenge-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="lab-container">
+        <div class="header">
+            <h1>🐍 Interactive Snake Game Coding Lab</h1>
+            <p>Learn JavaScript Game Development by Building a Classic Snake Game</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <p id="progressText">Challenge 1 of 12 - Let's start coding!</p>
+        </div>
+
+        <div class="lab-interface">
+            <div class="challenge-panel">
+                <h2 id="challengeTitle">Challenge 1: Create the Game Canvas</h2>
+                <div class="challenge-content" id="challengeContent">
+                    <p>Welcome to your first JavaScript game development challenge! In this lab, you'll build a complete Snake game step by step.</p>
+                    
+                    <div class="challenge-objective">
+                        <strong>🎯 Objective:</strong> Create an HTML5 canvas element and set up the basic game structure.
+                    </div>
+                    
+                    <p>The HTML5 Canvas is the foundation of web-based games. It provides a drawable surface where we can render graphics using JavaScript.</p>
+                    
+                    <p><strong>Your Task:</strong></p>
+                    <ol>
+                        <li>Create a <span class="syntax-highlight">canvas</span> element with id "gameCanvas"</li>
+                        <li>Set the canvas width to 400 and height to 400</li>
+                        <li>Get the 2D rendering context using <span class="syntax-highlight">getContext('2d')</span></li>
+                        <li>Fill the canvas with a black background</li>
+                    </ol>
+                    
+                    <div class="challenge-hint" id="challengeHint">
+                        <strong>💡 Hint:</strong> Use <span class="syntax-highlight">document.getElementById()</span> to get the canvas element, then use <span class="syntax-highlight">ctx.fillStyle</span> and <span class="syntax-highlight">ctx.fillRect()</span> to create the background.
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-info" onclick="showHint()">Show Hint</button>
+                    <button class="btn btn-warning" onclick="runCode()">Run Code</button>
+                    <button class="btn btn-success" onclick="checkSolution()">Check Solution</button>
+                    <button class="btn btn-primary" onclick="nextChallenge()">Next Challenge</button>
+                </div>
+            </div>
+
+            <div class="code-panel">
+                <h2>💻 Code Editor</h2>
+                <textarea class="code-editor" id="codeEditor" placeholder="Write your code here...">// Challenge 1: Create the Game Canvas
+// Create a canvas element and set up the basic game structure
+
+// Step 1: Get the canvas element
+const canvas = document.getElementById('gameCanvas');
+
+// Step 2: Get the 2D rendering context
+const ctx = canvas.getContext('2d');
+
+// Step 3: Set canvas dimensions
+canvas.width = 400;
+canvas.height = 400;
+
+// Step 4: Fill the canvas with black background
+// Your code here...
+</textarea>
+                
+                <div class="output-panel" id="outputPanel">
+                    <div style="color: #4CAF50;">🚀 Ready to code! Write your solution above and click "Run Code"</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="challenge-navigator">
+            <h2>🎮 Challenge Roadmap</h2>
+            <div class="challenge-list" id="challengeList">
+                <!-- Challenges will be dynamically populated -->
+            </div>
+        </div>
+
+        <div class="game-preview">
+            <h2>🎯 Game Preview</h2>
+            <p>Your code will be tested on this canvas:</p>
+            <canvas id="gameCanvas" class="game-canvas" width="400" height="400"></canvas>
+        </div>
+    </div>
+
+    <div class="success-animation" id="successAnimation">
+        <h2>🎉 Challenge Completed!</h2>
+        <p>Great job! You're ready for the next challenge.</p>
+    </div>
+
+    <script>
+        // Challenge data structure following freeCodeCamp's methodology
+        const challenges = [
+            {
+                id: 1,
+                title: "Create the Game Canvas",
+                difficulty: "beginner",
+                description: "Set up HTML5 Canvas and 2D context",
+                content: `
+                    <p>Welcome to your first JavaScript game development challenge! In this lab, you'll build a complete Snake game step by step.</p>
+                    
+                    <div class="challenge-objective">
+                        <strong>🎯 Objective:</strong> Create an HTML5 canvas element and set up the basic game structure.
+                    </div>
+                    
+                    <p>The HTML5 Canvas is the foundation of web-based games. It provides a drawable surface where we can render graphics using JavaScript.</p>
+                    
+                    <p><strong>Your Task:</strong></p>
+                    <ol>
+                        <li>Create a <span class="syntax-highlight">canvas</span> element with id "gameCanvas"</li>
+                        <li>Set the canvas width to 400 and height to 400</li>
+                        <li>Get the 2D rendering context using <span class="syntax-highlight">getContext('2d')</span></li>
+                        <li>Fill the canvas with a black background</li>
+                    </ol>
+                `,
+                hint: `Use <span class="syntax-highlight">document.getElementById()</span> to get the canvas element, then use <span class="syntax-highlight">ctx.fillStyle</span> and <span class="syntax-highlight">ctx.fillRect()</span> to create the background.`,
+                starterCode: `// Challenge 1: Create the Game Canvas
+// Create a canvas element and set up the basic game structure
+
+// Step 1: Get the canvas element
+const canvas = document.getElementById('gameCanvas');
+
+// Step 2: Get the 2D rendering context
+const ctx = canvas.getContext('2d');
+
+// Step 3: Set canvas dimensions
+canvas.width = 400;
+canvas.height = 400;
+
+// Step 4: Fill the canvas with black background
+// Your code here...`,
+                solution: `// Challenge 1: Create the Game Canvas
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = 400;
+canvas.height = 400;
+ctx.fillStyle = 'black';
+ctx.fillRect(0, 0, canvas.width, canvas.height);`,
+                testFunction: function() {
+                    const canvas = document.getElementById('gameCanvas');
+                    return canvas && canvas.width === 400 && canvas.height === 400;
+                }
+            },
+            {
+                id: 2,
+                title: "Draw the Snake",
+                difficulty: "beginner",
+                description: "Create and render the snake using arrays",
+                content: `
+                    <div class="challenge-objective">
+                        <strong>🎯 Objective:</strong> Create a snake data structure and draw it on the canvas.
+                    </div>
+                    
+                    <p>In this challenge, you'll learn how to represent the snake using an array of objects, where each object represents a segment of the snake.</p>
+                    
+                    <p><strong>Your Task:</strong></p>
+                    <ol>
+                        <li>Create a snake array with initial position</li>
+                        <li>Define a grid size (20px)</li>
+                        <li>Draw each snake segment as a green rectangle</li>
+                        <li>Use a loop to render all segments</li>
+                    </ol>
+                `,
+                hint: `Use an array of objects like <span class="syntax-highlight">[{x: 0, y: 0}, {x: 20, y: 0}]</span> to represent snake segments.`,
+                starterCode: `// Challenge 2: Draw the Snake
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = 400;
+canvas.height = 400;
+
+const gridSize = 20;
+let snake = [
+    {x: 100, y: 100},
+    {x: 80, y: 100},
+    {x: 60, y: 100}
+];
+
+function drawSnake() {
+    // Clear canvas
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Draw snake segments
+    // Your code here...
+}
+
+drawSnake();`,
+                solution: `const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = 400;
+canvas.height = 400;
+
+const gridSize = 20;
+let snake = [
+    {x: 100, y: 100},
+    {x: 80, y: 100},
+    {x: 60, y: 100}
+];
+
+function drawSnake() {
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    ctx.fillStyle = 'lime';
+    for (let segment of snake) {
+        ctx.fillRect(segment.x, segment.y, gridSize, gridSize);
+    }
+}
+
+drawSnake();`,
+                testFunction: function() {
+                    // Check if snake is visible (green rectangles drawn)
+                    return true; // Simplified test
+                }
+            },
+            {
+                id: 3,
+                title: "Add Food Generation",
+                difficulty: "beginner",
+                description: "Generate random food positions",
+                content: `
+                    <div class="challenge-objective">
+                        <strong>🎯 Objective:</strong> Create a food object that appears randomly on the game grid.
+                    </div>
+                    
+                    <p>The snake needs food to grow! Learn how to generate random positions within the game boundaries.</p>
+                    
+                    <p><strong>Your Task:</strong></p>
+                    <ol>
+                        <li>Create a food object with x and y coordinates</li>
+                        <li>Generate random positions aligned to the grid</li>
+                        <li>Draw the food as a red square</li>
+                        <li>Ensure food appears within canvas boundaries</li>
+                    </ol>
+                `,
+                hint: `Use <span class="syntax-highlight">Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize</span> for grid-aligned random positions.`,
+                starterCode: `// Challenge 3: Add Food Generation
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = 400;
+canvas.height = 400;
+
+const gridSize = 20;
+let snake = [{x: 100, y: 100}];
+let food = {};
+
+function generateFood() {
+    // Generate random grid-aligned position
+    // Your code here...
+}
+
+function drawGame() {
+    // Clear canvas
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Draw snake
+    ctx.fillStyle = 'lime';
+    for (let segment of snake) {
+        ctx.fillRect(segment.x, segment.y, gridSize, gridSize);
+    }
+    
+    // Draw food
+    // Your code here...
+}
+
+generateFood();
+drawGame();`,
+                solution: `const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = 400;
+canvas.height = 400;
+
+const gridSize = 20;
+let snake = [{x: 100, y: 100}];
+let food = {};
+
+function generateFood() {
+    food = {
+        x: Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize,
+        y: Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize
+    };
+}
+
+function drawGame() {
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    ctx.fillStyle = 'lime';
+    for (let segment of snake) {
+        ctx.fillRect(segment.x, segment.y, gridSize, gridSize);
+    }
+    
+    ctx.fillStyle = 'red';
+    ctx.fillRect(food.x, food.y, gridSize, gridSize);
+}
+
+generateFood();
+drawGame();`,
+                testFunction: function() {
+                    return true; // Simplified test
+                }
+            },
+            {
+                id: 4,
+                title: "Snake Movement",
+                difficulty: "intermediate",
+                description: "Implement basic snake movement",
+                content: `
+                    <div class="challenge-objective">
+                        <strong>🎯 Objective:</strong> Make the snake move continuously in a direction.
+                    </div>
+                    
+                    <p>Now we'll bring the snake to life! Learn about game loops and movement mechanics.</p>
+                    
+                    <p><strong>Your Task:</strong></p>
+                    <ol>
+                        <li>Create direction variables (dx, dy)</li>
+                        <li>Implement a moveSnake() function</li>
+                        <li>Use setInterval for continuous movement</li>
+                        <li>Update snake head position each frame</li>
+                    </ol>
+                `,
+                hint: `Use <span class="syntax-highlight">setInterval(gameLoop, 150)</span> to create a game loop. Add new head and remove tail for movement.`,
+                starterCode: `// Challenge 4: Snake Movement
+// ... previous code ...
+let dx = gridSize;
+let dy = 0;
+
+function moveSnake() {
+    const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+    // Your movement logic here...
+}
+
+function gameLoop() {
+    moveSnake();
+    drawGame();
+}
+
+// Start the game loop
+// Your code here...`,
+                solution: `let dx = gridSize;
+let dy = 0;
+
+function moveSnake() {
+    const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+    snake.unshift(head);
+    snake.pop();
+}
+
+function gameLoop() {
+    moveSnake();
+    drawGame();
+}
+
+setInterval(gameLoop, 150);`,
+                testFunction: function() { return true; }
+            },
+            {
+                id: 5,
+                title: "Keyboard Controls",
+                difficulty: "intermediate",
+                description: "Add arrow key controls for snake direction",
+                content: `
+                    <div class="challenge-objective">
+                        <strong>🎯 Objective:</strong> Implement keyboard controls to change snake direction.
+                    </div>
+                    
+                    <p>Make your game interactive! Learn about event listeners and input handling.</p>
+                    
+                    <p><strong>Your Task:</strong></p>
+                    <ol>
+                        <li>Add keydown event listener</li>
+                        <li>Map arrow keys to direction changes</li>
+                        <li>Prevent snake from reversing into itself</li>
+                        <li>Update dx and dy variables</li>
+                    </ol>
+                `,
+                hint: `Use <span class="syntax-highlight">event.key</span> to detect arrow keys and prevent opposite directions.`,
+                starterCode: `// Challenge 5: Keyboard Controls
+document.addEventListener('keydown', function(event) {
+    // Handle arrow key presses
+    // Your code here...
+});`,
+                solution: `document.addEventListener('keydown', function(event) {
+    if (event.key === 'ArrowUp' && dy === 0) {
+        dx = 0; dy = -gridSize;
+    } else if (event.key === 'ArrowDown' && dy === 0) {
+        dx = 0; dy = gridSize;
+    } else if (event.key === 'ArrowLeft' && dx === 0) {
+        dx = -gridSize; dy = 0;
+    } else if (event.key === 'ArrowRight' && dx === 0) {
+        dx = gridSize; dy = 0;
+    }
+});`,
+                testFunction: function() { return true; }
+            },
+            {
+                id: 6,
+                title: "Food Collision Detection",
+                difficulty: "intermediate",
+                description: "Detect when snake eats food",
+                content: `
+                    <div class="challenge-objective">
+                        <strong>🎯 Objective:</strong> Implement collision detection between snake and food.
+                    </div>
+                    
+                    <p>Learn about collision detection and game state management.</p>
+                    
+                    <p><strong>Your Task:</strong></p>
+                    <ol>
+                        <li>Check if snake head touches food</li>
+                        <li>Generate new food when eaten</li>
+                        <li>Make snake grow when eating</li>
+                        <li>Update score display</li>
+                    </ol>
+                `,
+                hint: `Compare snake head position with food position using <span class="syntax-highlight">snake[0].x === food.x && snake[0].y === food.y</span>`,
+                starterCode: `// Challenge 6: Food Collision Detection
+let score = 0;
+
+function checkFoodCollision() {
+    // Check if snake head touches food
+    // Your code here...
+}`,
+                solution: `let score = 0;
+
+function checkFoodCollision() {
+    if (snake[0].x === food.x && snake[0].y === food.y) {
+        score++;
+        generateFood();
+        // Don't remove tail to make snake grow
+        return true;
+    }
+    return false;
+}
+
+function moveSnake() {
+    const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+    snake.unshift(head);
+    
+    if (!checkFoodCollision()) {
+        snake.pop();
+    }
+}`,
+                testFunction: function() { return true; }
+            },
+            {
+                id: 7,
+                title: "Wall Collision Detection",
+                difficulty: "intermediate",
+                description: "End game when snake hits walls",
+                content: `
+                    <div class="challenge-objective">
+                        <strong>🎯 Objective:</strong> Detect when snake hits the canvas boundaries.
+                    </div>
+                    
+                    <p>Add game-ending conditions to make the game challenging.</p>
+                    
+                    <p><strong>Your Task:</strong></p>
+                    <ol>
+                        <li>Check if snake head is outside canvas</li>
+                        <li>Stop game loop when collision occurs</li>
+                        <li>Display game over message</li>
+                        <li>Add restart functionality</li>
+                    </ol>
+                `,
+                hint: `Check if head x/y coordinates are less than 0 or greater than canvas dimensions.`,
+                starterCode: `// Challenge 7: Wall Collision Detection
+function checkWallCollision() {
+    // Check if snake hits walls
+    // Your code here...
+}`,
+                solution: `function checkWallCollision() {
+    const head = snake[0];
+    return head.x < 0 || head.x >= canvas.width || 
+           head.y < 0 || head.y >= canvas.height;
+}
+
+function gameLoop() {
+    if (checkWallCollision()) {
+        alert('Game Over! Score: ' + score);
+        return;
+    }
+    moveSnake();
+    drawGame();
+}`,
+                testFunction: function() { return true; }
+            },
+            {
+                id: 8,
+                title: "Self Collision Detection",
+                difficulty: "advanced",
+                description: "Detect when snake collides with itself",
+                content: `
+                    <div class="challenge-objective">
+                        <strong>🎯 Objective:</strong> Implement self-collision detection for the snake.
+                    </div>
+                    
+                    <p>Complete the collision system by detecting when the snake runs into its own body.</p>
+                    
+                    <p><strong>Your Task:</strong></p>
+                    <ol>
+                        <li>Check if head position matches any body segment</li>
+                        <li>Use array methods for efficient checking</li>
+                        <li>End game on self-collision</li>
+                        <li>Optimize collision detection</li>
+                    </ol>
+                `,
+                hint: `Use <span class="syntax-highlight">snake.slice(1).some()</span> to check if head collides with body segments.`,
+                starterCode: `// Challenge 8: Self Collision Detection
+function checkSelfCollision() {
+    // Check if snake head hits its body
+    // Your code here...
+}`,
+                solution: `function checkSelfCollision() {
+    const head = snake[0];
+    return snake.slice(1).some(segment => 
+        segment.x === head.x && segment.y === head.y
+    );
+}`,
+                testFunction: function() { return true; }
+            },
+            {
+                id: 9,
+                title: "Score System",
+                difficulty: "intermediate",
+                description: "Add scoring and display system",
+                content: `
+                    <div class="challenge-objective">
+                        <strong>🎯 Objective:</strong> Create a comprehensive scoring system.
+                    </div>
+                    
+                    <p>Add visual feedback and scoring to enhance the gaming experience.</p>
+                    
+                    <p><strong>Your Task:</strong></p>
+                    <ol>
+                        <li>Display current score on canvas</li>
+                        <li>Add high score tracking</li>
+                        <li>Style the score display</li>
+                        <li>Save high score to localStorage</li>
+                    </ol>
+                `,
+                hint: `Use <span class="syntax-highlight">ctx.fillText()</span> to display text and <span class="syntax-highlight">localStorage</span> to save high scores.`,
+                starterCode: `// Challenge 9: Score System
+function drawScore() {
+    // Draw score on canvas
+    // Your code here...
+}`,
+                solution: `function drawScore() {
+    ctx.fillStyle = 'white';
+    ctx.font = '20px Arial';
+    ctx.fillText('Score: ' + score, 10, 30);
+    
+    const highScore = localStorage.getItem('snakeHighScore') || 0;
+    ctx.fillText('High Score: ' + highScore, 10, 60);
+}
+
+function updateHighScore() {
+    const highScore = localStorage.getItem('snakeHighScore') || 0;
+    if (score > highScore) {
+        localStorage.setItem('snakeHighScore', score);
+    }
+}`,
+                testFunction: function() { return true; }
+            },
+            {
+                id: 10,
+                title: "Game Speed Control",
+                difficulty: "advanced",
+                description: "Implement dynamic game speed",
+                content: `
+                    <div class="challenge-objective">
+                        <strong>🎯 Objective:</strong> Make the game progressively faster as score increases.
+                    </div>
+                    
+                    <p>Create a more challenging experience with dynamic difficulty.</p>
+                    
+                    <p><strong>Your Task:</strong></p>
+                    <ol>
+                        <li>Calculate speed based on score</li>
+                        <li>Clear and restart intervals</li>
+                        <li>Set minimum and maximum speeds</li>
+                        <li>Smooth speed transitions</li>
+                    </ol>
+                `,
+                hint: `Use a formula like <span class="syntax-highlight">Math.max(50, 200 - score * 5)</span> for speed calculation.`,
+                starterCode: `// Challenge 10: Game Speed Control
+let gameInterval;
+let gameSpeed = 200;
+
+function updateGameSpeed() {
+    // Calculate new speed based on score
+    // Your code here...
+}`,
+                solution: `let gameInterval;
+let gameSpeed = 200;
+
+function updateGameSpeed() {
+    const newSpeed = Math.max(50, 200 - score * 10);
+    if (newSpeed !== gameSpeed) {
+        gameSpeed = newSpeed;
+        clearInterval(gameInterval);
+        gameInterval = setInterval(gameLoop, gameSpeed);
+    }
+}`,
+                testFunction: function() { return true; }
+            },
+            {
+                id: 11,
+                title: "Game States & Restart",
+                difficulty: "advanced",
+                description: "Implement game state management",
+                content: `
+                    <div class="challenge-objective">
+                        <strong>🎯 Objective:</strong> Add proper game state management and restart functionality.
+                    </div>
+                    
+                    <p>Learn advanced game architecture with state management.</p>
+                    
+                    <p><strong>Your Task:</strong></p>
+                    <ol>
+                        <li>Create game states (playing, paused, gameover)</li>
+                        <li>Implement pause functionality</li>
+                        <li>Add restart button</li>
+                        <li>Handle state transitions</li>
+                    </ol>
+                `,
+                hint: `Use an enum or constants for game states and switch statements for state handling.`,
+                starterCode: `// Challenge 11: Game States & Restart
+const GAME_STATES = {
+    PLAYING: 'playing',
+    PAUSED: 'paused',
+    GAMEOVER: 'gameover'
+};
+
+let gameState = GAME_STATES.PLAYING;
+
+function handleGameState() {
+    // Handle different game states
+    // Your code here...
+}`,
+                solution: `const GAME_STATES = {
+    PLAYING: 'playing',
+    PAUSED: 'paused',
+    GAMEOVER: 'gameover'
+};
+
+let gameState = GAME_STATES.PLAYING;
+
+function resetGame() {
+    snake = [{x: 100, y: 100}];
+    dx = gridSize;
+    dy = 0;
+    score = 0;
+    gameSpeed = 200;
+    gameState = GAME_STATES.PLAYING;
+    generateFood();
+}
+
+function handleGameState() {
+    switch(gameState) {
+        case GAME_STATES.PLAYING:
+            // Normal game logic
+            break;
+        case GAME_STATES.PAUSED:
+            // Display pause message
+            break;
+        case GAME_STATES.GAMEOVER:
+            // Display game over screen
+            break;
+    }
+}`,
+                testFunction: function() { return true; }
+            },
+            {
+                id: 12,
+                title: "Final Polish & Optimization",
+                difficulty: "advanced",
+                description: "Add visual effects and optimize performance",
+                content: `
+                    <div class="challenge-objective">
+                        <strong>🎯 Objective:</strong> Add finishing touches to create a polished game experience.
+                    </div>
+                    
+                    <p>Complete your Snake game with professional-level polish and optimization.</p>
+                    
+                    <p><strong>Your Task:</strong></p>
+                    <ol>
+                        <li>Add visual effects (gradients, shadows)</li>
+                        <li>Implement smooth animations</li>
+                        <li>Add sound effects (optional)</li>
+                        <li>Optimize rendering performance</li>
+                        <li>Add responsive design features</li>
+                    </ol>
+                `,
+                hint: `Use <span class="syntax-highlight">ctx.shadowColor</span> and <span class="syntax-highlight">createLinearGradient()</span> for visual effects.`,
+                starterCode: `// Challenge 12: Final Polish & Optimization
+function addVisualEffects() {
+    // Add gradients and shadows
+    // Your code here...
+}
+
+function optimizeRendering() {
+    // Performance optimizations
+    // Your code here...
+}`,
+                solution: `function addVisualEffects() {
+    // Snake gradient
+    const gradient = ctx.createLinearGradient(0, 0, gridSize, gridSize);
+    gradient.addColorStop(0, '#32CD32');
+    gradient.addColorStop(1, '#228B22');
+    
+    // Shadow effects
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+    ctx.shadowBlur = 3;
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 2;
+}
+
+function optimizeRendering() {
+    // Only redraw when necessary
+    // Use requestAnimationFrame for smooth rendering
+    // Cache frequently used calculations
+}`,
+                testFunction: function() { return true; }
+            }
+        ];
+
+        // Lab state management
+        let currentChallengeIndex = 0;
+        let completedChallenges = new Set();
+        let hintVisible = false;
+
+        // Initialize the lab
+        function initializeLab() {
+            renderChallengeList();
+            loadChallenge(0);
+            updateProgress();
+        }
+
+        function renderChallengeList() {
+            const challengeList = document.getElementById('challengeList');
+            challengeList.innerHTML = '';
+            
+            challenges.forEach((challenge, index) => {
+                const challengeItem = document.createElement('div');
+                challengeItem.className = `challenge-item ${index === currentChallengeIndex ? 'active' : ''} ${completedChallenges.has(index) ? 'completed' : ''}`;
+                challengeItem.onclick = () => loadChallenge(index);
+                
+                challengeItem.innerHTML = `
+                    <div class="challenge-title">Challenge ${challenge.id}: ${challenge.title}</div>
+                    <div class="challenge-description">${challenge.description}</div>
+                    <div class="difficulty-badge difficulty-${challenge.difficulty}">${challenge.difficulty}</div>
+                `;
+                
+                challengeList.appendChild(challengeItem);
+            });
+        }
+
+        function loadChallenge(index) {
+            if (index < 0 || index >= challenges.length) return;
+            
+            currentChallengeIndex = index;
+            const challenge = challenges[index];
+            
+            document.getElementById('challengeTitle').textContent = `Challenge ${challenge.id}: ${challenge.title}`;
+            document.getElementById('challengeContent').innerHTML = challenge.content;
+            document.getElementById('challengeHint').innerHTML = `<strong>💡 Hint:</strong> ${challenge.hint}`;
+            document.getElementById('codeEditor').value = challenge.starterCode;
+            
+            // Hide hint initially
+            document.getElementById('challengeHint').style.display = 'none';
+            hintVisible = false;
+            
+            // Clear output
+            document.getElementById('outputPanel').innerHTML = '<div style="color: #4CAF50;">🚀 Ready to code! Write your solution above and click "Run Code"</div>';
+            
+            renderChallengeList();
+            updateProgress();
+        }
+
+        function showHint() {
+            const hintElement = document.getElementById('challengeHint');
+            if (hintVisible) {
+                hintElement.style.display = 'none';
+                hintVisible = false;
+            } else {
+                hintElement.style.display = 'block';
+                hintVisible = true;
+            }
+        }
+
+        function runCode() {
+            const code = document.getElementById('codeEditor').value;
+            const outputPanel = document.getElementById('outputPanel');
+            
+            try {
+                // Clear previous output
+                outputPanel.innerHTML = '';
+                
+                // Execute the code
+                eval(code);
+                
+                outputPanel.innerHTML = '<div style="color: #4CAF50;">✅ Code executed successfully!</div>';
+                
+            } catch (error) {
+                outputPanel.innerHTML = `<div style="color: #ff6b6b;">❌ Error: ${error.message}</div>`;
+            }
+        }
+
+        function checkSolution() {
+            const code = document.getElementById('codeEditor').value;
+            const outputPanel = document.getElementById('outputPanel');
+            const challenge = challenges[currentChallengeIndex];
+            
+            try {
+                // Simple solution checking
+                const solutionKeywords = challenge.solution.toLowerCase().split(/\W+/).filter(word => word.length > 3);
+                const codeWords = code.toLowerCase().split(/\W+/);
+                
+                const matchedKeywords = solutionKeywords.filter(keyword => 
+                    codeWords.includes(keyword)
+                ).length;
+                
+                const matchPercentage = (matchedKeywords / solutionKeywords.length) * 100;
+                
+                if (matchPercentage >= 70) {
+                    completedChallenges.add(currentChallengeIndex);
+                    showSuccessAnimation();
+                    outputPanel.innerHTML = '<div style="color: #4CAF50;">🎉 Excellent! Challenge completed successfully!</div>';
+                    renderChallengeList();
+                    updateProgress();
+                } else {
+                    outputPanel.innerHTML = '<div style="color: #ffc107;">⚠️ Good start! Try implementing the missing requirements or check the hint.</div>';
+                }
+                
+            } catch (error) {
+                outputPanel.innerHTML = `<div style="color: #ff6b6b;">❌ Error in solution: ${error.message}</div>`;
+            }
+        }
+
+        function nextChallenge() {
+            if (currentChallengeIndex < challenges.length - 1) {
+                loadChallenge(currentChallengeIndex + 1);
+            } else {
+                alert('🎉 Congratulations! You\'ve completed all challenges! You\'re now a Snake Game master!');
+            }
+        }
+
+        function showSuccessAnimation() {
+            const animation = document.getElementById('successAnimation');
+            animation.style.display = 'block';
+            
+            setTimeout(() => {
+                animation.style.display = 'none';
+            }, 2000);
+        }
+
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            
+            const progress = (completedChallenges.size / challenges.length) * 100;
+            progressFill.style.width = progress + '%';
+            
+            progressText.textContent = `Challenge ${currentChallengeIndex + 1} of ${challenges.length} - ${completedChallenges.size} completed`;
+        }
+
+        // Initialize the lab when page loads
+        document.addEventListener('DOMContentLoaded', initializeLab);
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            if (event.ctrlKey || event.metaKey) {
+                switch(event.key) {
+                    case 'Enter':
+                        event.preventDefault();
+                        runCode();
+                        break;
+                    case 's':
+                        event.preventDefault();
+                        checkSolution();
+                        break;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
