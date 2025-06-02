@@ -9,13 +9,14 @@ let gameOver = false;
 
 function main(currentTime){
   if(gameOver){
-    // Save the score before confirming
+    // Save the score before showing popup
     if (window.saveScore) {
       window.saveScore(score);
     }
     
-    if(confirm('Game Over!\nScore: ' + score + ' \nDo you want to try again?')){
-      window.location = './';
+    // Show previous scores popup instead of alert
+    if (window.showPreviousScoresPopup) {
+      window.showPreviousScoresPopup();
     }
     return;
   }
