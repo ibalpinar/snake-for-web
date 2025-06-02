@@ -40,8 +40,9 @@ body{
   font-weight: bold;
 }
 
-.game-header .back-link .back{
-  cursor: pointer;
+.game-header .back-link {
+  display: flex;
+  align-items: center;
   padding: 0 0 0 0.5vmin;
 }
 
@@ -49,7 +50,9 @@ body{
   display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
   padding: 0 1vmin 0 0;
+  gap: 0.5vmin;
 }
 
 .game-header .scoreboard-container .score{
@@ -70,12 +73,43 @@ body{
 }
 
 /* Popup Styling */
-.previous-score {
+.previous-score-button, .restart-button, .back-button {
   margin-right: 10px;
   cursor: pointer;
-  color: #4f70b7;
-  text-decoration: underline;
+  color: white;
+  background-color: #4f70b7;
+  border: none;
+  border-radius: 4px;
+  padding: 0.3vmin 0.6vmin;
   font-family: Verdana, sans-serif;
+  font-size: 1.1vmin;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.previous-score-button:hover, .restart-button:hover, .back-button:hover {
+  background-color: #3a5a9e;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.restart-button {
+  background-color: #ff9800;
+  margin-right: 8px;
+}
+
+.restart-button:hover {
+  background-color: #e68900;
+}
+
+.back-button {
+  background-color: #6c757d;
+  padding: 0.3vmin 0.8vmin;
+}
+
+.back-button:hover {
+  background-color: #5a6268;
 }
 
 .popup {
