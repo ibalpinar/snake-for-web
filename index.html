@@ -43,24 +43,31 @@
     <div id="playground"></div>
   </div>
   
-  <!-- Popup for Previous Score -->
   <div id="previous-score-popup" class="popup">
     <div class="popup-content">
       <span class="close-popup">&times;</span>
-      <h2>Previous Scores</h2>
+      <h2 style="color: #d32f2f; text-align: center; margin-bottom: 20px;">🎮 Game Over!</h2>
+      <h3 style="text-align: center; color: #2c3e50; margin-bottom: 15px;">Previous Scores</h3>
       <div id="previous-score-content">
-        <table id="score-table">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Score</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Scores will be inserted here -->
-          </tbody>
-        </table>
+        <div id="score-table-container">
+          <table id="score-table">
+            <thead>
+              <tr>
+                <th>Date & Time</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Scores will be inserted here -->
+            </tbody>
+          </table>
+        </div>
         <div id="no-scores" style="display: none;">No previous scores found.</div>
+      </div>
+      <div style="text-align: center; margin-top: 20px;">
+        <button id="restart-game" style="padding: 12px 24px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-family: Verdana, sans-serif; font-weight: bold; transition: background-color 0.3s;">
+          🎮 Play Again
+        </button>
       </div>
     </div>
   </div>
@@ -117,22 +124,44 @@
       // Sort scores by date (newest first)
       scores.sort((a, b) => new Date(b.date) - new Date(a.date));
       
+      // Limit to maximum 15 rows
+      const limitedScores = scores.slice(0, 15);
+      
       // Add rows for each score
-      scores.forEach(item => {
+      limitedScores.forEach((item, index) => {
         const row = document.createElement('tr');
         
         // Format the date nicely
         const date = new Date(item.date);
         const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${String(date.getMinutes()).padStart(2, '0')}`;
         
+        // Make the first row (current/latest score) bold and highlighted
+        const scoreStyle = index === 0 ? 'font-weight: bold; color: #2c3e50; font-size: 16px;' : '';
+        const dateStyle = index === 0 ? 'font-weight: bold; color: #2c3e50; font-size: 16px;' : '';
+        const rowStyle = index === 0 ? 'background-color: #e8f5e8;' : '';
+        
+        row.style.cssText = rowStyle;
         row.innerHTML = `
-          <td>${formattedDate}</td>
-          <td>${item.score}</td>
+          <td style="${dateStyle}">${formattedDate}</td>
+          <td style="${scoreStyle}">${item.score}</td>
         `;
         
         scoreTable.appendChild(row);
       });
     }
+    
+    // Function to auto-show previous scores popup
+    window.showPreviousScoresPopup = function() {
+      displayPreviousScores();
+      popup.style.display = 'block';
+    };
+    
+    // Add restart button functionality
+    const restartButton = document.getElementById('restart-game');
+    restartButton.addEventListener('click', function() {
+      popup.style.display = 'none';
+      location.reload(); // Reload the page to restart the game
+    });
   });
 </script>
 </html>

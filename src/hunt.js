@@ -1,30 +1,28 @@
-import { onSnake, growSnake } from './snake.js'
-import { randomGridPosition } from './playground.js';
-import { GROWTH_PARAMETER } from './gameParameters.js';
+import { onSnake, expandSnake } from './snake.js'
+import { getRandomGridPosition } from './playground.js'
 
-let huntPosition = getRandomHuntPosition();
+let food = getRandomFoodPosition();
+const EXPANSION_RATE = 1; // Ne kadar segmentle büyüteceği
 
-export function update(){
-  if(onSnake(huntPosition)){
-    growSnake(GROWTH_PARAMETER);
-    huntPosition = getRandomHuntPosition();
+export function update() {
+  if (onSnake(food)) {
+    expandSnake(EXPANSION_RATE); // growSnake yerine expandSnake kullan
+    food = getRandomFoodPosition();
   }
 }
 
-export function draw(playground){
-  const huntElement = document.createElement('div');
-  huntElement.style.gridRowStart = huntPosition.y;
-  huntElement.style.gridColumnStart = huntPosition.x;
-  huntElement.classList.add('hunt');
-  playground.appendChild(huntElement);
+export function draw(gameBoard) {
+  const foodElement = document.createElement('div');
+  foodElement.style.gridRowStart = food.y;
+  foodElement.style.gridColumnStart = food.x;
+  foodElement.classList.add('hunt');
+  gameBoard.appendChild(foodElement);
 }
 
-function getRandomHuntPosition(){
-  let newHuntPosition;
-
-  while(newHuntPosition == null || onSnake(newHuntPosition)){
-    newHuntPosition = randomGridPosition();
+function getRandomFoodPosition() {
+  let newFoodPosition;
+  while (newFoodPosition == null || onSnake(newFoodPosition)) {
+    newFoodPosition = getRandomGridPosition();
   }
-
-  return newHuntPosition;
+  return newFoodPosition;
 }

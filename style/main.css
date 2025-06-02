@@ -102,6 +102,16 @@ body{
   font-family: Verdana, sans-serif;
 }
 
+.popup-content h2 {
+  margin-top: 0;
+  font-family: Verdana, sans-serif;
+}
+
+.popup-content h3 {
+  margin-top: 0;
+  font-family: Verdana, sans-serif;
+}
+
 .close-popup {
   color: #aaa;
   float: right;
@@ -115,16 +125,24 @@ body{
 }
 
 /* Table styling */
+#score-table-container {
+  max-height: 350px; /* Optimized height for exactly 15 rows */
+  overflow-y: auto; /* Add vertical scrollbar when needed */
+  margin-top: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
 #score-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 15px;
   font-family: Verdana, sans-serif;
   font-size: 14px;
 }
 
 #score-table th, #score-table td {
-  padding: 8px;
+  padding: 10px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
@@ -132,10 +150,37 @@ body{
 #score-table th {
   background-color: #f2f2f2;
   font-weight: bold;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 2px solid #4CAF50;
 }
 
 #score-table tr:hover {
   background-color: #f5f5f5;
+}
+
+#score-table tbody tr:first-child {
+  background-color: #e8f5e8 !important; /* Highlight current score */
+}
+
+/* Custom scrollbar styling */
+#score-table-container::-webkit-scrollbar {
+  width: 10px;
+}
+
+#score-table-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 5px;
+}
+
+#score-table-container::-webkit-scrollbar-thumb {
+  background: #4CAF50;
+  border-radius: 5px;
+}
+
+#score-table-container::-webkit-scrollbar-thumb:hover {
+  background: #45a049;
 }
 
 #no-scores {
@@ -143,4 +188,26 @@ body{
   margin-top: 20px;
   color: #666;
   font-family: Verdana, sans-serif;
+}
+
+.snake {
+  border: .25vmin solid rgb(219, 74, 74);
+  border-radius: 25%;
+  background-color: hsl(355, 96%, 81%);
+  transition: transform 0.15s ease-out;
+}
+
+.snake-head {
+  background-color: hsl(355, 96%, 70%); /* Baş için isteğe bağlı farklı renk */
+  border-color: rgb(189, 44, 44);
+}
+
+.animated {
+  will-change: transform; /* Performans optimizasyonu */
+}
+
+#restart-game:hover {
+  background-color: #45a049 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
