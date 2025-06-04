@@ -70,10 +70,27 @@ function checkGameStatus(){
 // Pause and resume functions
 function pauseGame() {
   gamePaused = true;
+  showPauseOverlay();
 }
 
 function resumeGame() {
   gamePaused = false;
+  hidePauseOverlay();
+}
+
+// Pause overlay functions
+function showPauseOverlay() {
+  const pauseOverlay = document.getElementById('pause-overlay');
+  if (pauseOverlay) {
+    pauseOverlay.style.display = 'flex';
+  }
+}
+
+function hidePauseOverlay() {
+  const pauseOverlay = document.getElementById('pause-overlay');
+  if (pauseOverlay) {
+    pauseOverlay.style.display = 'none';
+  }
 }
 
 // Export gameOver state and game control functions for other modules to check

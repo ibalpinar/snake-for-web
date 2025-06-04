@@ -19,6 +19,20 @@ window.addEventListener('keydown', e => {
       if (lastInputDirection.x !== 0) break;
       inputDirection = { x: 1, y: 0};
       break;
+    case ' ':
+    case 'Space':
+      // Handle space key for pause/resume
+      import('./core.js').then(module => {
+        if (module.gameStarted && !module.gameOver) {
+          if (module.gamePaused) {
+            module.resumeGame();
+          } else {
+            module.pauseGame();
+          }
+        }
+      });
+      e.preventDefault(); // Prevent page scrolling
+      break;
   }
 });
 
