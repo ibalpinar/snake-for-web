@@ -47,6 +47,17 @@ body{
   padding: 0 0 0 0.5vmin;
 }
 
+.game-header .game-title {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  margin-left: 2vmin;
+  font-size: 1.4vmin;
+  font-weight: bold;
+  color: #2c3e50;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
 .game-header .scoreboard-container{
   display: flex;
     flex-direction: row;
