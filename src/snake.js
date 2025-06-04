@@ -3,7 +3,9 @@ import { GRID_SIZE, GROWTH_PARAMETER, STARTING_POSITION, HIGH_SCORE_ANIMATION } 
 
 export let score = 0;
 let snakeBody = [
-  { x: 26, y: 26 }
+  { x: 26, y: 26 },    // Head
+  { x: 25, y: 26 },    // Body segment 1
+  { x: 24, y: 26 }     // Body segment 2 (tail)
 ];
 let newSegments = 0;
 let lastDirection = { x: 0, y: 0 };

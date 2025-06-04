@@ -39,16 +39,11 @@ function main(currentTime){
 
   lastRenderTime = currentTime;
   update();
-  draw();
 }
 
 window.requestAnimationFrame(main);
 
 function update(){
-  updateSnake();
-  updateHunt();
-  checkGameStatus();
-  
   // Mark game as started when snake starts moving
   if (!gameStarted) {
     const inputDirection = getInputDirection();
@@ -56,6 +51,16 @@ function update(){
       gameStarted = true;
     }
   }
+  
+  // Only update snake and hunt if game has started
+  if (gameStarted) {
+    updateSnake();
+    updateHunt();
+    checkGameStatus();
+  }
+  
+  // Always draw the current state (whether started or not)
+  draw();
 }
 
 function draw(){
@@ -65,7 +70,10 @@ function draw(){
 }
 
 function checkGameStatus(){
-  gameOver = ( outsideOfPlayground(getSnakeHead()) || isTailIntersect() );
+  // Only check for game over conditions if the game has actually started
+  if (gameStarted) {
+    gameOver = ( outsideOfPlayground(getSnakeHead()) || isTailIntersect() );
+  }
 }
 
 // Pause and resume functions
