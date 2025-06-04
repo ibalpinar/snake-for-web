@@ -214,24 +214,16 @@
     
     cancelExitButton.addEventListener('click', function() {
       hideConfirmationPopup();
-      // Resume the game only when user cancels (wants to continue playing)
-      import('./src/core.js').then(module => {
-        if (module.gameStarted && !module.gameOver && module.gamePaused) {
-          module.resumeGame();
-        }
-      });
+      // Don't resume the game when canceling - keep it paused
+      // User must press SPACE to resume the game
     });
     
     // Close confirmation popup when clicking outside
     window.addEventListener('click', function(e) {
       if (e.target === confirmationPopup) {
         hideConfirmationPopup();
-        // Resume the game when clicking outside (acts like cancel)
-        import('./src/core.js').then(module => {
-          if (module.gameStarted && !module.gameOver && module.gamePaused) {
-            module.resumeGame();
-          }
-        });
+        // Don't resume the game when clicking outside - keep it paused
+        // User must press SPACE to resume the game
       }
     });
     
@@ -245,12 +237,8 @@
     if (closeConfirmation) {
       closeConfirmation.addEventListener('click', function() {
         hideConfirmationPopup();
-        // Resume the game when closing (X button acts like cancel)
-        import('./src/core.js').then(module => {
-          if (module.gameStarted && !module.gameOver && module.gamePaused) {
-            module.resumeGame();
-          }
-        });
+        // Don't resume the game when closing (X button) - keep it paused
+        // User must press SPACE to resume the game
       });
     }
     
