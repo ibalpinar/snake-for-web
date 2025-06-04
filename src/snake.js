@@ -1,4 +1,5 @@
-import { getInputDirection } from './input.js'
+import { getInputDirection } from './input.js';
+import { GRID_SIZE, GROWTH_PARAMETER, STARTING_POSITION, HIGH_SCORE_ANIMATION } from './gameParameters.js';
 
 export let score = 0;
 let snakeBody = [
@@ -93,8 +94,75 @@ export function draw(gameBoard, interpolationFactor = SMOOTHNESS_FACTOR) {
 }
 
 export function expandSnake(amount) {
+  const previousScore = score;
   newSegments += amount;
   score += 10;  // Her genişlemede skoru 10 artır
+  
+  // Check if we've broken the high score
+  checkAndTriggerHighScore(previousScore, score);
+}
+
+// Function to get current high score from localStorage
+function getCurrentHighScore() {
+  const scores = JSON.parse(localStorage.getItem('snakeScores')) || [];
+  if (scores.length === 0) return 0;
+  
+  return Math.max(...scores.map(scoreEntry => scoreEntry.score));
+}
+
+// Function to check and trigger high score animation
+function checkAndTriggerHighScore(previousScore, newScore) {
+  if (!HIGH_SCORE_ANIMATION.ENABLED) return;
+  
+  const currentHighScore = getCurrentHighScore();
+  
+  // Check if we've surpassed the high score
+  if (previousScore <= currentHighScore && newScore > currentHighScore) {
+    triggerHighScoreAnimation();
+  }
+}
+
+// Function to trigger the high score animation
+function triggerHighScoreAnimation() {
+  console.log('High score achieved! Triggering animation...');
+  const snakeHead = getSnakeHead();
+  const playground = document.getElementById('playground');
+  
+  if (!snakeHead || !playground) return;
+  
+  // Create animation element
+  const animationElement = document.createElement('div');
+  animationElement.className = 'high-score-animation';
+  animationElement.textContent = '🏆 NEW HIGH SCORE! 🏆';
+  
+  // Set CSS custom properties for animation
+  animationElement.style.setProperty('--animation-duration', `${HIGH_SCORE_ANIMATION.DURATION}ms`);
+  animationElement.style.setProperty('--float-distance', `-${HIGH_SCORE_ANIMATION.FLOAT_DISTANCE}px`);
+  
+  // Style the element
+  animationElement.style.fontSize = HIGH_SCORE_ANIMATION.FONT_SIZE;
+  animationElement.style.color = HIGH_SCORE_ANIMATION.COLOR;
+  animationElement.style.textShadow = `${HIGH_SCORE_ANIMATION.SHADOW_BLUR} ${HIGH_SCORE_ANIMATION.SHADOW_COLOR}`;
+  
+  // Position it at the snake's head
+  const playgroundRect = playground.getBoundingClientRect();
+  const gridSize = 51; // GRID_SIZE
+  const cellWidth = playgroundRect.width / gridSize;
+  const cellHeight = playgroundRect.height / gridSize;
+  
+  animationElement.style.left = `${(snakeHead.x - 1) * cellWidth + cellWidth / 2}px`;
+  animationElement.style.top = `${(snakeHead.y - 1) * cellHeight + cellHeight / 2}px`;
+  animationElement.style.transform = 'translateX(-50%)';
+  
+  // Add to playground
+  playground.appendChild(animationElement);
+  
+  // Remove after animation completes
+  setTimeout(() => {
+    if (animationElement.parentNode) {
+      animationElement.parentNode.removeChild(animationElement);
+    }
+  }, HIGH_SCORE_ANIMATION.DURATION);
 }
 
 export function onSnake(position, { ignoreHead = false } = {}) {

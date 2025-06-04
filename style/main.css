@@ -26,6 +26,7 @@ body{
   display: grid;
   grid-template-columns: repeat(var(--grid-size), 1fr);
   grid-template-rows: repeat(var(--grid-size), 1fr);
+  position: relative;
 }
 
 .game-header{
@@ -486,4 +487,35 @@ body{
 @keyframes fadeInOut {
   0%, 100% { opacity: 0.6; }
   50% { opacity: 1; }
+}
+
+/* High Score Animation */
+.high-score-animation {
+  position: absolute;
+  z-index: 999;
+  pointer-events: none;
+  font-family: Verdana, sans-serif;
+  font-weight: bold;
+  text-align: center;
+  white-space: nowrap;
+  animation: floatAndFade var(--animation-duration, 3s) ease-out forwards;
+}
+
+@keyframes floatAndFade {
+  0% {
+    transform: translateY(0) scale(0.8);
+    opacity: 0;
+  }
+  15% {
+    transform: translateY(-10px) scale(1.1);
+    opacity: 1;
+  }
+  30% {
+    transform: translateY(-20px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(var(--float-distance, -80px)) scale(0.9);
+    opacity: 0;
+  }
 }

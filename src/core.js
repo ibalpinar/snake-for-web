@@ -5,6 +5,7 @@ import { getInputDirection } from './input.js';
 import { SNAKE_SPEED } from './gameParameters.js';
 
 const board = document.getElementById('playground');
+const playground = document.getElementById('playground');
 let lastRenderTime = 0;
 let gameOver = false;
 let gameStarted = false;
