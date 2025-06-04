@@ -49,3 +49,6 @@ function draw(){
 function checkGameStatus(){
   gameOver = ( outsideOfPlayground(getSnakeHead()) || isTailIntersect() );
 }
+
+// Export gameOver state for other modules to check
+export { gameOver };
