@@ -125,10 +125,9 @@ function checkAndTriggerHighScore(previousScore, newScore) {
 // Function to trigger the high score animation
 function triggerHighScoreAnimation() {
   console.log('High score achieved! Triggering animation...');
-  const snakeHead = getSnakeHead();
-  const playground = document.getElementById('playground');
+  const gameHeader = document.querySelector('.game-header');
   
-  if (!snakeHead || !playground) return;
+  if (!gameHeader) return;
   
   // Create animation element
   const animationElement = document.createElement('div');
@@ -144,18 +143,16 @@ function triggerHighScoreAnimation() {
   animationElement.style.color = HIGH_SCORE_ANIMATION.COLOR;
   animationElement.style.textShadow = `${HIGH_SCORE_ANIMATION.SHADOW_BLUR} ${HIGH_SCORE_ANIMATION.SHADOW_COLOR}`;
   
-  // Position it at the snake's head
-  const playgroundRect = playground.getBoundingClientRect();
-  const gridSize = 51; // GRID_SIZE
-  const cellWidth = playgroundRect.width / gridSize;
-  const cellHeight = playgroundRect.height / gridSize;
+  // Position it slightly to the left in the header
+  animationElement.style.position = 'absolute';
+  animationElement.style.left = '30%';
+  animationElement.style.top = '50%';
+  animationElement.style.transform = 'translate(-50%, -50%)';
+  animationElement.style.zIndex = '1001';
   
-  animationElement.style.left = `${(snakeHead.x - 1) * cellWidth + cellWidth / 2}px`;
-  animationElement.style.top = `${(snakeHead.y - 1) * cellHeight + cellHeight / 2}px`;
-  animationElement.style.transform = 'translateX(-50%)';
-  
-  // Add to playground
-  playground.appendChild(animationElement);
+  // Add to header (make sure header has relative positioning)
+  gameHeader.style.position = 'relative';
+  gameHeader.appendChild(animationElement);
   
   // Remove after animation completes
   setTimeout(() => {
