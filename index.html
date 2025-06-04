@@ -110,15 +110,16 @@
     // Store the action to be performed after confirmation
     let pendingAction = null;
     
-    // Function to check if game is currently active
+    // Function to check if game is currently active (started, moving, and not over)
     function isGameActive() {
-      // Import the gameOver state from core.js module
       return new Promise((resolve) => {
         import('./src/core.js').then(module => {
-          resolve(!module.gameOver);
+          // Game is active only if it's started, not over, and not already paused
+          // This means the snake is actually moving
+          resolve(module.gameStarted && !module.gameOver && !module.gamePaused);
         }).catch(() => {
-          // If import fails, assume game is active
-          resolve(true);
+          // If import fails, assume game is not active
+          resolve(false);
         });
       });
     }
@@ -126,6 +127,12 @@
     // Function to show confirmation popup
     function showConfirmationPopup(action) {
       pendingAction = action;
+      // Pause the game when showing confirmation
+      import('./src/core.js').then(module => {
+        if (module.gameStarted && !module.gameOver) {
+          module.pauseGame();
+        }
+      });
       confirmationPopup.style.display = 'block';
     }
     
@@ -133,6 +140,8 @@
     function hideConfirmationPopup() {
       confirmationPopup.style.display = 'none';
       pendingAction = null;
+      // Don't automatically resume the game - it should stay paused
+      // The game will only resume if the user cancels and wants to continue playing
     }
     
     // Open popup when clicking on Previous Score button
@@ -181,20 +190,34 @@
     
     // Confirmation popup handlers
     confirmExitButton.addEventListener('click', function() {
-      hideConfirmationPopup();
+      // Don't resume game when confirming exit
+      confirmationPopup.style.display = 'none';
       if (pendingAction) {
         pendingAction();
       }
+      pendingAction = null;
     });
     
     cancelExitButton.addEventListener('click', function() {
       hideConfirmationPopup();
+      // Resume the game only when user cancels (wants to continue playing)
+      import('./src/core.js').then(module => {
+        if (module.gameStarted && !module.gameOver && module.gamePaused) {
+          module.resumeGame();
+        }
+      });
     });
     
     // Close confirmation popup when clicking outside
     window.addEventListener('click', function(e) {
       if (e.target === confirmationPopup) {
         hideConfirmationPopup();
+        // Resume the game when clicking outside (acts like cancel)
+        import('./src/core.js').then(module => {
+          if (module.gameStarted && !module.gameOver && module.gamePaused) {
+            module.resumeGame();
+          }
+        });
       }
     });
     
@@ -208,6 +231,12 @@
     if (closeConfirmation) {
       closeConfirmation.addEventListener('click', function() {
         hideConfirmationPopup();
+        // Resume the game when closing (X button acts like cancel)
+        import('./src/core.js').then(module => {
+          if (module.gameStarted && !module.gameOver && module.gamePaused) {
+            module.resumeGame();
+          }
+        });
       });
     }
     

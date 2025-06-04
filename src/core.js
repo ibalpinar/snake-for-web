@@ -1,11 +1,14 @@
 import { update as updateSnake, draw as drawSnake, getSnakeHead, isTailIntersect, score } from './snake.js'
 import { update as updateHunt, draw as drawHunt }  from './hunt.js'
 import { outsideOfPlayground } from './playground.js';
+import { getInputDirection } from './input.js';
 import { SNAKE_SPEED } from './gameParameters.js';
 
 const board = document.getElementById('playground');
 let lastRenderTime = 0;
 let gameOver = false;
+let gameStarted = false;
+let gamePaused = false;
 
 function main(currentTime){
   if(gameOver){
@@ -18,6 +21,12 @@ function main(currentTime){
     if (window.showPreviousScoresPopup) {
       window.showPreviousScoresPopup();
     }
+    return;
+  }
+
+  // If game is paused, still request next frame but don't update
+  if(gamePaused) {
+    window.requestAnimationFrame(main);
     return;
   }
 
@@ -38,6 +47,14 @@ function update(){
   updateSnake();
   updateHunt();
   checkGameStatus();
+  
+  // Mark game as started when snake starts moving
+  if (!gameStarted) {
+    const inputDirection = getInputDirection();
+    if (inputDirection.x !== 0 || inputDirection.y !== 0) {
+      gameStarted = true;
+    }
+  }
 }
 
 function draw(){
@@ -50,5 +67,14 @@ function checkGameStatus(){
   gameOver = ( outsideOfPlayground(getSnakeHead()) || isTailIntersect() );
 }
 
-// Export gameOver state for other modules to check
-export { gameOver };
+// Pause and resume functions
+function pauseGame() {
+  gamePaused = true;
+}
+
+function resumeGame() {
+  gamePaused = false;
+}
+
+// Export gameOver state and game control functions for other modules to check
+export { gameOver, gameStarted, gamePaused, pauseGame, resumeGame };
