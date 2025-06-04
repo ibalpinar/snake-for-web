@@ -76,7 +76,10 @@
         </div>
         <div id="no-scores" style="display: none;">No previous scores found.</div>
       </div>
-      <div style="text-align: center; margin-top: 20px;">
+      <div style="text-align: center; margin-top: 20px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
+        <button id="clear-scores" style="padding: 12px 24px; font-size: 16px; background-color: #f44336; color: white; border: none; border-radius: 5px; cursor: pointer; font-family: Verdana, sans-serif; font-weight: bold; transition: background-color 0.3s;">
+          🗑️ Clear All Scores
+        </button>
         <button id="restart-game" style="padding: 12px 24px; font-size: 16px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; font-family: Verdana, sans-serif; font-weight: bold; transition: background-color 0.3s;">
           🎮 Play Again
         </button>
@@ -314,6 +317,19 @@
       displayPreviousScores();
       popup.style.display = 'block';
     };
+    
+    // Add clear scores button functionality
+    const clearScoresButton = document.getElementById('clear-scores');
+    clearScoresButton.addEventListener('click', function() {
+      // Show confirmation dialog
+      if (confirm('Are you sure you want to clear all scores? This action cannot be undone.')) {
+        // Clear from local storage
+        localStorage.removeItem('snakeScores');
+        
+        // Refresh the display to show no scores
+        displayPreviousScores();
+      }
+    });
     
     // Add restart button functionality
     const restartButton = document.getElementById('restart-game');

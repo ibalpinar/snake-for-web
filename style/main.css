@@ -258,6 +258,12 @@ body{
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
+#clear-scores:hover {
+  background-color: #d32f2f !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
 /* Confirmation popup button styling */
 .confirmation-button {
   padding: 12px 24px;
