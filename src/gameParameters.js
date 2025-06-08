@@ -16,3 +16,14 @@ export const HIGH_SCORE_ANIMATION = {
   SHADOW_COLOR: 'rgba(0, 0, 0, 0.8)', // Text shadow for better visibility
   SHADOW_BLUR: '4px'
 };
+
+// Reward Food Parameters
+export const REWARD_FOOD = {
+  ENABLED: true,
+  FREQUENCY: 5, // Show reward food every X regular foods eaten
+  DURATION: 7000, // How long reward food stays on screen (in milliseconds)
+  SCORE_MULTIPLIER: 3, // How many times more points reward food gives (3x = 30 points vs 10 points)
+  COLOR: '#FFD700', // Gold color for reward food
+  GLOW_COLOR: '#FFA500', // Orange glow effect
+  ANIMATION_SPEED: 1000 // Animation cycle duration in milliseconds
+};

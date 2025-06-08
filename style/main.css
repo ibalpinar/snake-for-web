@@ -79,6 +79,35 @@ body{
   background-color: hsl(133, 89%, 58%);
 }
 
+.hunt.reward-food {
+  border: .25vmin solid #FFD700;
+  background-color: #FFD700;
+  box-shadow: 
+    0 0 0.5vmin #FFA500,
+    0 0 1vmin #FFD700,
+    0 0 1.5vmin #FFA500;
+  animation: rewardFoodGlow 1s ease-in-out infinite alternate;
+  z-index: 10;
+  position: relative;
+}
+
+@keyframes rewardFoodGlow {
+  0% {
+    box-shadow: 
+      0 0 0.5vmin #FFA500,
+      0 0 1vmin #FFD700,
+      0 0 1.5vmin #FFA500;
+    transform: scale(1);
+  }
+  100% {
+    box-shadow: 
+      0 0 1vmin #FFA500,
+      0 0 2vmin #FFD700,
+      0 0 3vmin #FFA500;
+    transform: scale(1.1);
+  }
+}
+
 .snake{
   border: .25vmin solid rgb(219, 74, 74);
   border-radius: 25%;

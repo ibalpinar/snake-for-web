@@ -98,7 +98,11 @@ export function draw(gameBoard, interpolationFactor = SMOOTHNESS_FACTOR) {
 export function expandSnake(amount) {
   const previousScore = score;
   newSegments += amount;
-  score += 10;  // Her genişlemede skoru 10 artır
+  
+  // Calculate points based on amount (reward food gives more points)
+  const pointsPerSegment = 10;
+  const pointsToAdd = amount * pointsPerSegment;
+  score += pointsToAdd;
   
   // Check if we've broken the high score
   checkAndTriggerHighScore(previousScore, score);
@@ -190,4 +194,17 @@ function addSegments() {
     snakeBody.push({ ...lastSegment });
   }
   newSegments = 0;
+}
+
+// Function to reset the snake to initial state
+export function resetSnake() {
+  score = 0;
+  snakeBody = [
+    { x: 26, y: 26 },    // Head
+    { x: 25, y: 26 },    // Body segment 1
+    { x: 24, y: 26 }     // Body segment 2 (tail)
+  ];
+  newSegments = 0;
+  lastDirection = { x: 0, y: 0 };
+  previousPositions = [];
 }

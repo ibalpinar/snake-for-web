@@ -1,5 +1,5 @@
 import { update as updateSnake, draw as drawSnake, getSnakeHead, isTailIntersect, score } from './snake.js'
-import { update as updateHunt, draw as drawHunt }  from './hunt.js'
+import { update as updateHunt, draw as drawHunt, resetRewardSystem }  from './hunt.js'
 import { outsideOfPlayground } from './playground.js';
 import { getInputDirection } from './input.js';
 import { SNAKE_SPEED } from './gameParameters.js';
