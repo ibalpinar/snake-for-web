@@ -73,6 +73,53 @@ body{
   text-align: right;
 }
 
+/* Reward countdown timer styling */
+.reward-countdown {
+  display: flex;
+  align-items: center;
+  gap: 0.3vmin;
+  background-color: #FFD700;
+  color: #333;
+  padding: 0.3vmin 0.6vmin;
+  border-radius: 0.5vmin;
+  font-size: 1.1vmin;
+  font-weight: bold;
+  border: 0.1vmin solid #FFA500;
+  box-shadow: 0 0 0.5vmin rgba(255, 215, 0, 0.5);
+  animation: countdownPulse 1s ease-in-out infinite alternate;
+}
+
+.countdown-icon {
+  font-size: 1.2vmin;
+}
+
+#countdown-timer {
+  min-width: 1.5vmin;
+  text-align: center;
+}
+
+@keyframes countdownPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0.5vmin rgba(255, 215, 0, 0.5);
+  }
+  100% {
+    transform: scale(1.05);
+    box-shadow: 0 0 1vmin rgba(255, 215, 0, 0.8);
+  }
+}
+
+@keyframes countdownUrgent {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0.5vmin rgba(255, 68, 68, 0.7);
+  }
+  100% {
+    transform: scale(1.1);
+    box-shadow: 0 0 1.5vmin rgba(255, 68, 68, 1);
+  }
+}
+
 .hunt{
   border: .25vmin solid rgb(76, 177, 89);
   border-radius: 50%;
