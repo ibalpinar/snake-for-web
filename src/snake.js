@@ -110,7 +110,12 @@ export function expandSnake(amount) {
 
 // Function to get current high score from localStorage
 function getCurrentHighScore() {
-  const scores = JSON.parse(localStorage.getItem('snakeScores')) || [];
+  let scores;
+  try {
+    scores = JSON.parse(localStorage.getItem('snakeScores') || '[]');
+  } catch (e) {
+    scores = [];
+  }
   if (scores.length === 0) return 0;
   
   return Math.max(...scores.map(scoreEntry => scoreEntry.score));

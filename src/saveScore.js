@@ -1,7 +1,12 @@
     // Function to save score to local storage
     window.saveScore = function(score) {
       // Get existing scores or create empty array
-      const scores = JSON.parse(localStorage.getItem('snakeScores')) || [];
+      let scores;
+      try {
+        scores = JSON.parse(localStorage.getItem('snakeScores') || '[]');
+      } catch (e) {
+        scores = [];
+      }
       
       // Add new score with timestamp
       scores.push({

@@ -143,7 +143,12 @@
       const noScores = document.getElementById('no-scores');
       
       // Get scores from local storage
-      const scores = JSON.parse(localStorage.getItem('snakeScores')) || [];
+      let scores;
+      try {
+        scores = JSON.parse(localStorage.getItem('snakeScores') || '[]');
+      } catch (e) {
+        scores = [];
+      }
       
       // Clear existing content
       scoreTable.innerHTML = '';
