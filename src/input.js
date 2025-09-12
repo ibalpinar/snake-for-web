@@ -1,3 +1,5 @@
+import { gameStarted, gameOver, gamePaused, pauseGame, resumeGame } from './core.js';
+
 let inputDirection = { x: 0, y: 0 };
 let lastInputDirection = { x: 0, y: 0 };
 
@@ -22,15 +24,13 @@ window.addEventListener('keydown', e => {
     case ' ':
     case 'Space':
       // Handle space key for pause/resume
-      import('./core.js').then(module => {
-        if (module.gameStarted && !module.gameOver) {
-          if (module.gamePaused) {
-            module.resumeGame();
-          } else {
-            module.pauseGame();
-          }
+      if (gameStarted && !gameOver) {
+        if (gamePaused) {
+          resumeGame();
+        } else {
+          pauseGame();
         }
-      });
+      }
       e.preventDefault(); // Prevent page scrolling
       break;
   }

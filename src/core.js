@@ -65,8 +65,10 @@ function update(){
 
 function draw(){
   playground.innerHTML = '';
+  console.log('Drawing snake and hunt...'); // Debug log
   drawSnake(playground);
   drawHunt(playground);
+  console.log('Playground innerHTML after draw:', playground.innerHTML.length); // Debug log
 }
 
 function checkGameStatus(){
@@ -74,6 +76,11 @@ function checkGameStatus(){
   if (gameStarted) {
     gameOver = ( outsideOfPlayground(getSnakeHead()) || isTailIntersect() );
   }
+}
+
+// Function to trigger game over (for bomb collision)
+export function triggerGameOver() {
+  gameOver = true;
 }
 
 // Pause and resume functions
@@ -103,4 +110,4 @@ function hidePauseOverlay() {
 }
 
 // Export gameOver state and game control functions for other modules to check
-export { gameOver, gameStarted, gamePaused, pauseGame, resumeGame };
+export { gameOver, gameStarted, gamePaused, pauseGame, resumeGame, triggerGameOver };

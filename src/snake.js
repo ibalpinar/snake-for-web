@@ -38,6 +38,7 @@ export function update() {
 }
 
 export function draw(gameBoard, interpolationFactor = SMOOTHNESS_FACTOR) {
+  console.log('Snake draw called, snakeBody:', snakeBody); // Debug log
   // Önce mevcut tüm yılan segmentlerini temizleyelim
   const currentSnakeElements = document.querySelectorAll('.snake');
   currentSnakeElements.forEach(element => element.remove());

@@ -89,11 +89,27 @@ body{
   animation: countdownPulse 1s ease-in-out infinite alternate;
 }
 
+/* Bomb countdown timer styling */
+.bomb-countdown {
+  display: flex;
+  align-items: center;
+  gap: 0.3vmin;
+  background-color: #ff4444;
+  color: white;
+  padding: 0.3vmin 0.6vmin;
+  border-radius: 0.5vmin;
+  font-size: 1.1vmin;
+  font-weight: bold;
+  border: 0.1vmin solid #cc0000;
+  box-shadow: 0 0 0.8vmin rgba(255, 68, 68, 0.7);
+  animation: bombPulse 0.5s ease-in-out infinite alternate;
+}
+
 .countdown-icon {
   font-size: 1.2vmin;
 }
 
-#countdown-timer {
+#countdown-timer, #bomb-countdown-timer {
   min-width: 1.5vmin;
   text-align: center;
 }
@@ -109,14 +125,36 @@ body{
   }
 }
 
-@keyframes countdownUrgent {
+@keyframes bombPulse {
   0% {
     transform: scale(1);
-    box-shadow: 0 0 0.5vmin rgba(255, 68, 68, 0.7);
+    box-shadow: 0 0 0.8vmin rgba(255, 68, 68, 0.7);
   }
   100% {
-    transform: scale(1.1);
+    transform: scale(1.08);
     box-shadow: 0 0 1.5vmin rgba(255, 68, 68, 1);
+  }
+}
+
+@keyframes countdownUrgent {
+  0% {
+    transform: scale(1.05);
+    box-shadow: 0 0 1vmin rgba(255, 68, 68, 0.8);
+  }
+  100% {
+    transform: scale(1.15);
+    box-shadow: 0 0 2vmin rgba(255, 68, 68, 1);
+  }
+}
+
+@keyframes bombUrgent {
+  0% {
+    transform: scale(1.08);
+    box-shadow: 0 0 1.5vmin rgba(204, 0, 0, 1);
+  }
+  100% {
+    transform: scale(1.2);
+    box-shadow: 0 0 2.5vmin rgba(204, 0, 0, 1);
   }
 }
 
@@ -130,28 +168,48 @@ body{
   border: .25vmin solid #FFD700;
   background-color: #FFD700;
   box-shadow: 
-    0 0 0.5vmin #FFA500,
-    0 0 1vmin #FFD700,
     0 0 1.5vmin #FFA500;
   animation: rewardFoodGlow 1s ease-in-out infinite alternate;
   z-index: 10;
   position: relative;
 }
 
+.hunt.bomb {
+  border: .25vmin solid #FF0000;
+  background-color: #FF0000;
+  box-shadow: 
+    0 0 2vmin #8B0000,
+    0 0 3vmin #FF0000;
+  animation: bombGlow 0.5s ease-in-out infinite alternate;
+  z-index: 15;
+  position: relative;
+  border-radius: 50%;
+}
+
 @keyframes rewardFoodGlow {
   0% {
+    box-shadow: 0 0 1.5vmin #FFA500;
+    transform: scale(1);
+  }
+  100% {
+    box-shadow: 0 0 2.5vmin #FFD700;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes bombGlow {
+  0% {
     box-shadow: 
-      0 0 0.5vmin #FFA500,
-      0 0 1vmin #FFD700,
-      0 0 1.5vmin #FFA500;
+      0 0 2vmin #8B0000,
+      0 0 3vmin #FF0000;
     transform: scale(1);
   }
   100% {
     box-shadow: 
-      0 0 1vmin #FFA500,
-      0 0 2vmin #FFD700,
-      0 0 3vmin #FFA500;
-    transform: scale(1.1);
+      0 0 3vmin #8B0000,
+      0 0 5vmin #FF0000,
+      0 0 7vmin #FF4444;
+    transform: scale(1.15);
   }
 }
 

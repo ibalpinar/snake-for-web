@@ -27,3 +27,13 @@ export const REWARD_FOOD = {
   GLOW_COLOR: '#FFA500', // Orange glow effect
   ANIMATION_SPEED: 1000 // Animation cycle duration in milliseconds
 };
+
+// Bomb Parameters
+export const BOMB = {
+  ENABLED: true,
+  FREQUENCY: 2, // Show bomb every X reward foods eaten (her iki ödül arasında)
+  DURATION: 7000, // Same duration as reward food (ödül yeme süresi kadar)
+  COLOR: '#FF0000', // Red color for bomb
+  GLOW_COLOR: '#8B0000', // Dark red glow effect
+  ANIMATION_SPEED: 500 // Faster animation for urgency
+};
